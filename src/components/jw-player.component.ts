@@ -1,9 +1,13 @@
 ﻿declare var jwplayer: any;
 
-import { EventEmitter } from "./event-emitter";
+import { EventEmitter } from "../utils";
+import { NotificationsComponent } from "./notifications.component";
 
 export class JWPlayerComponent {
-    constructor(private _nativeElement: HTMLElement) { }
+    constructor(
+        private _nativeElement: HTMLElement,
+        private _hotificationsComponent: NotificationsComponent
+    ) { }
 
     public events: Array<string> = ['ready', 'play', 'pause', 'complete', 'seek', 'error', 'playlistItem', 'time', 'firstFrame'];
 
