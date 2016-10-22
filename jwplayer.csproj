@@ -102,6 +102,7 @@
     <TypeScriptCompile Include="src\components\jw-player.component.ts" />
     <TypeScriptCompile Include="src\components\notifications.component.ts" />
     <TypeScriptCompile Include="src\components\index.ts" />
+    <TypeScriptCompile Include="src\components\title.component.ts" />
     <TypeScriptCompile Include="src\services\analytics.ts" />
     <TypeScriptCompile Include="src\services\error.ts" />
     <TypeScriptCompile Include="src\services\local-storage-service.ts" />

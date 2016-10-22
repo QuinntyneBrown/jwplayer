@@ -15,6 +15,10 @@ export class State {
             case "complete":
                 LocalStorageService.Instance.clear();
                 break;
+
+            case "buffer":
+                
+                break;
         }
     }
 }

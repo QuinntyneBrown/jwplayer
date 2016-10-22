@@ -1,24 +1,13 @@
 ﻿declare var jwplayer: any;
 
-import { EventEmitter } from "../utils";
-
 export class JWPlayerComponent {
     constructor(
         private _nativeElement: HTMLElement
     ) { }
-
-    public events: Array<string> = ['ready', 'play', 'pause', 'complete', 'seek', 'error', 'playlistItem', 'time', 'firstFrame'];
-
-    public title: string;
-
+    
     public file: string;
-
     public height: string;
-
-    public width: string;
-
-    public playerEvent: EventEmitter = new EventEmitter();
-
+    public width: string;    
     private _playerInstance: any = null;
 
     public get playerInstance(): any {
@@ -31,22 +20,6 @@ export class JWPlayerComponent {
             file: this.file,
             height: this.height,
             width: this.width
-        });
-        this.handleEventsFor(this.playerInstance);
-    }
-
-    public handleEventsFor = (playerInstance: any) => {
-        this.events.forEach((type) => {
-            this.playerInstance
-                .on(type, (event) => {                    
-                    this.playerEvent.emit(
-                        {
-                            playerEvent: event,
-                            playerEventType: type,
-                            playerInstance: this.playerInstance
-                        }
-                    );
-                });
-        });
+        });        
     }
 }

@@ -1,7 +1,8 @@
 ﻿export class NotificationsComponent {
     constructor(private _element: HTMLElement) { }
     
-    public message(value: string) {
+    public set message(value: string) {
         this._element.innerText = value;
     }
+    
 }
