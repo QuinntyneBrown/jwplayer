@@ -24,7 +24,7 @@ export class JWPlayerComponent {
         return this._playerInstance;
     }
 
-    activate() {
+    public activate() {
         this.playerInstance.setup({
             file: this.file,
             height: this.height,
@@ -34,19 +34,17 @@ export class JWPlayerComponent {
     }
 
     public handleEventsFor = (player: any) => {
-        //this.events.forEach((type) => {
-        //    this.playerInstance
-        //        .on(type, function (event) {
-        //            this.playerEvent.emit(
-        //                {
-        //                    playerId: this.uniqueId,
-        //                    event: event,
-        //                    type: type,
-        //                    playerInstance: this.playerInstance
-        //                }
-        //            );
-        //        });
-        //});
+        this.events.forEach((type) => {
+            this.playerInstance
+                .on(type, (event) => {                    
+                    this.playerEvent.emit(
+                        {
+                            playerEvent: event,
+                            playerEventType: type,
+                            playerInstance: this.playerInstance
+                        }
+                    );
+                });
+        });
     }
-
 }
