@@ -1,12 +1,10 @@
 ﻿declare var jwplayer: any;
 
 import { EventEmitter } from "../utils";
-import { NotificationsComponent } from "./notifications.component";
 
 export class JWPlayerComponent {
     constructor(
-        private _nativeElement: HTMLElement,
-        private _hotificationsComponent: NotificationsComponent
+        private _nativeElement: HTMLElement
     ) { }
 
     public events: Array<string> = ['ready', 'play', 'pause', 'complete', 'seek', 'error', 'playlistItem', 'time', 'firstFrame'];
@@ -37,7 +35,7 @@ export class JWPlayerComponent {
         this.handleEventsFor(this.playerInstance);
     }
 
-    public handleEventsFor = (player: any) => {
+    public handleEventsFor = (playerInstance: any) => {
         this.events.forEach((type) => {
             this.playerInstance
                 .on(type, (event) => {                    

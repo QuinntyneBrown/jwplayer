@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\bootstrap.ts" />
+    <TypeScriptCompile Include="src\components\jw-player-container.component.ts" />
     <TypeScriptCompile Include="src\components\jw-player.component.ts" />
     <TypeScriptCompile Include="src\components\notifications.component.ts" />
     <TypeScriptCompile Include="src\main.ts" />

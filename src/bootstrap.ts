@@ -1,4 +1,4 @@
-﻿import { JWPlayerComponent, NotificationsComponent } from "./components";
+﻿import { JWPlayerContainerComponent } from "./components";
 import { Analytics, State, ErrorHandler } from "./services";
 
 declare var jwplayer;
@@ -17,11 +17,11 @@ export const bootstrap = (rootElement: HTMLElement) => {
     
     for (var i = 0; i < jwPlayerElements.length; i++) {
         var element = jwPlayerElements[i] as HTMLElement;
-        let jwPlayerComponent = new JWPlayerComponent(element, new NotificationsComponent());
-        jwPlayerComponent.file = element.getAttribute("[file]");
-        jwPlayerComponent.height = element.getAttribute("[height]");
-        jwPlayerComponent.width = element.getAttribute("[width]");
-        jwPlayerComponent.activate();
+        let jwPlayerContainerComponent = new JWPlayerContainerComponent(element);
+        jwPlayerContainerComponent.file = element.getAttribute("[file]");
+        jwPlayerContainerComponent.height = element.getAttribute("[height]");
+        jwPlayerContainerComponent.width = element.getAttribute("[width]");
+        jwPlayerContainerComponent.activate();
     }
 
 }
