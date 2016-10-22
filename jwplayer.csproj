@@ -101,6 +101,7 @@
     <TypeScriptCompile Include="src\jw-player.component.ts" />
     <TypeScriptCompile Include="src\main.ts" />
     <TypeScriptCompile Include="src\local-storage-service.ts" />
+    <TypeScriptCompile Include="src\state.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

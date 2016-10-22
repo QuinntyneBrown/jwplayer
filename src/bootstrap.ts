@@ -1,20 +1,15 @@
 ﻿import { JWPlayerComponent } from "./jw-player.component";
-import { LocalStorageService } from "./local-storage-service";
 import { Analytics } from "./analytics";
+import { State } from "./state";
 
 export const bootstrap = (rootElement: HTMLElement) => {    
     let analytics = new Analytics();
+    let state = new State();
 
     document.addEventListener('playerEvent', function (event: any) {
-        switch (event.playerEventType) {
-            case "time":
-                LocalStorageService.Instance.put({ name: "player position", value: event.playerEvent.position });
-                break;
-
-            case "ready":
-                event.playerInstance.seek(LocalStorageService.Instance.get({ name: "player position" }));
-                break;
-        }
+        // add more consumers to plater event here...
+        analytics.onPlayerEvent(event);
+        state.onPlayerEvent(event);
     });
 
     var jwPlayerElements:NodeList = rootElement.querySelectorAll('div[jw-player]');
