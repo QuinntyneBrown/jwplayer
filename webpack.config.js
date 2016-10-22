@@ -5,12 +5,13 @@ var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 module.exports = {
     devtool: 'source-map',
     entry: {
-        'app': './src/main'
+        'app': './src/bootstrap'
     },
     output: {
         path: __dirname + "/dist",
         filename: "[name].js",
-        publicPath: "dist/"
+        publicPath: "dist/",
+        library:"jwplayerlib"
     },
     resolve: {
         extensions: ['.ts', '.js', '.jpg', '.jpeg', '.gif', '.png', '.css', '.html']

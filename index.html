@@ -12,6 +12,12 @@
          [width]="680px"></div>
 
     <script src="vendor/jwplayer.js"></script>
+    <script src="dist/handlebars.min.js"></script>
     <script src="dist/app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            jwplayerlib.bootstrap(document.body, "RQ+gASdSAzcEhqeSCgQ7M7hHOXdBC1Jdsl+PWg==");
+        });
+    </script>
 </body>
 </html>

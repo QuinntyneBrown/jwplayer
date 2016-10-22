@@ -9,23 +9,21 @@ export class JWPlayerContainerComponent {
     public width: string;
 
     public activate() {
-        var playerElement = document.createElement("div");
-        playerElement.setAttribute("class", "jw-player-component");
-        this._nativeElement.appendChild(playerElement);
-        this._jwPlayerComponent = new JWPlayerComponent(this._nativeElement.firstChild as HTMLElement);
+        this._nativeElement.innerHTML = require("../templates/jw-player-container.html");        
+        this._jwPlayerComponent = new JWPlayerComponent(this._jwPlayerNativeElement);
         this._jwPlayerComponent.file = this.file;
         this._jwPlayerComponent.height = this.height;
-        this._jwPlayerComponent.width = this.width;
-
-        var notificationsElement = document.createElement("div");
-        notificationsElement.setAttribute("class", "notifications-component");
-        this._nativeElement.appendChild(notificationsElement);
-        
-        this._notificationsComponent = new NotificationsComponent(this._nativeElement.querySelector(".notifications-component") as HTMLElement, this._jwPlayerComponent.playerInstance);
+        this._jwPlayerComponent.width = this.width;        
+        this._notificationsComponent = new NotificationsComponent(this._notificationsNativeElement);
         this._jwPlayerComponent.activate();
-        this._notificationsComponent.activate();
     }
 
     private _jwPlayerComponent: JWPlayerComponent;
     private _notificationsComponent: NotificationsComponent;
+    private get _jwPlayerNativeElement(): HTMLElement {
+        return this._nativeElement.querySelector(".jw-player") as HTMLElement;
+    }
+    private get _notificationsNativeElement(): HTMLElement {
+        return this._nativeElement.querySelector(".jw-player-notifications") as HTMLElement;
+    }
 }

@@ -3,8 +3,8 @@ import { Analytics, State, ErrorHandler } from "./services";
 
 declare var jwplayer;
 
-export const bootstrap = (rootElement: HTMLElement) => {         
-    jwplayer.key = "RQ+gASdSAzcEhqeSCgQ7M7hHOXdBC1Jdsl+PWg==";       
+export const bootstrap = (rootElement: HTMLElement, key: string) => {         
+    jwplayer.key = key;       
     document.addEventListener('playerEvent', function (event: any) {
         // add more built-in handlers to player event here...
         // Consumers of the player can add handlers by listening for the custom event
