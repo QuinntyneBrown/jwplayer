@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>JW Player Implementation using TypeScript</title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <h1>JW Player Implementation Using TypeScript and Webpack</h1>
+    <div jw-player
+         [file]="videos/egghead-create-a-list-component-in-vuejs.mp4"
+         [height]="420px"
+         [width]="680px"></div>
+
+    <script src="vendor/jwplayer.js"></script>
+    <script>jwplayer.key="RQ+gASdSAzcEhqeSCgQ7M7hHOXdBC1Jdsl+PWg==";</script>
+    <script src="dist/app.js"></script>
+</body>
+</html>
