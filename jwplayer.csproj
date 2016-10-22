@@ -97,6 +97,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\analytics.ts" />
     <TypeScriptCompile Include="src\bootstrap.ts" />
+    <TypeScriptCompile Include="src\error-handler.ts" />
     <TypeScriptCompile Include="src\event-emitter.ts" />
     <TypeScriptCompile Include="src\jw-player.component.ts" />
     <TypeScriptCompile Include="src\main.ts" />

@@ -1,19 +1,24 @@
 ﻿import { JWPlayerComponent } from "./jw-player.component";
 import { Analytics } from "./analytics";
 import { State } from "./state";
+import { ErrorHandler } from "./error-handler";
 
-export const bootstrap = (rootElement: HTMLElement) => {    
-    let analytics = new Analytics();
-    let state = new State();
+declare var jwplayer;
 
+export const bootstrap = (rootElement: HTMLElement) => {     
+    
+    jwplayer.key = "RQ+gASdSAzcEhqeSCgQ7M7hHOXdBC1Jdsl+PWg==";
+       
     document.addEventListener('playerEvent', function (event: any) {
-        // add more consumers to plater event here...
-        analytics.onPlayerEvent(event);
-        state.onPlayerEvent(event);
+        // add more built-in handlers to player event here...
+        // Consumers of the player can add handlers by listening for the custom event
+        Analytics.onPlayerEvent(event);
+        State.onPlayerEvent(event);
+        ErrorHandler.onPlayerEvent(event);
     });
 
-    var jwPlayerElements:NodeList = rootElement.querySelectorAll('div[jw-player]');
-    var jwPlayers: Array<JWPlayerComponent> = [];
+    const jwPlayerElements:NodeList = rootElement.querySelectorAll('div[jw-player]');
+    
     for (var i = 0; i < jwPlayerElements.length; i++) {
         var element = jwPlayerElements[i] as HTMLElement;
         let jwPlayerComponent = new JWPlayerComponent(element);

@@ -2,7 +2,7 @@
 
 export class State {
 
-    public onPlayerEvent(event) {
+    public static onPlayerEvent(event) {
         switch (event.playerEventType) {
             case "time":
                 LocalStorageService.Instance.put({ name: "player position", value: event.playerEvent.position });
@@ -13,7 +13,7 @@ export class State {
                 break;
 
             case "complete":
-                LocalStorageService.Instance.put({ name: "player position", value: 0 });
+                LocalStorageService.Instance.clear();
                 break;
         }
     }

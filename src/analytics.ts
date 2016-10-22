@@ -1,6 +1,6 @@
 ﻿export class Analytics {
     //do something with player event
-    public onPlayerEvent(event) {
+    public static onPlayerEvent(event) {
 
     }
 }
