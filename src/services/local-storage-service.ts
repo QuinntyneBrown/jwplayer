@@ -1,17 +1,14 @@
 ﻿export class LocalStorageService {
     constructor() {
-        window.onbeforeunload = () => localStorage.setItem(LocalStorageService.id, JSON.stringify(this._items))
+        window.onbeforeunload = () => localStorage.setItem(LocalStorageService.key, JSON.stringify(this._items))
     }
 
     private static _instance;
 
-    public static id = "[Local Storage Service]";
+    public static key = "[Local Storage Service]";
 
-    public static get Instance(): LocalStorageService {
-        if (!LocalStorageService._instance) {
-            LocalStorageService._instance = new LocalStorageService();
-        }
-
+    public static get Instance(): LocalStorageService {        
+        LocalStorageService._instance = LocalStorageService._instance || new LocalStorageService();
         return LocalStorageService._instance;
     }
 
@@ -19,7 +16,7 @@
 
     public get items() {
         if (this._items === null) {
-            var storageItems = localStorage.getItem(LocalStorageService.id);
+            var storageItems = localStorage.getItem(LocalStorageService.key);
             if (storageItems === "null") {
                 storageItems = null;
             }

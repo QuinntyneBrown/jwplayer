@@ -21,10 +21,7 @@ export class EventHub {
     private static _instance;
 
     public static get Instance(): EventHub {
-        if (!EventHub._instance) {
-            EventHub._instance = new EventHub();
-        }
-
+        EventHub._instance = EventHub._instance || new EventHub();
         return EventHub._instance;
     }
 
