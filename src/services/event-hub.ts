@@ -38,9 +38,6 @@ export class EventHub {
     }
 
     public addJWPlayer(jwPlayerContainerComponent: any) {
-
-        this.addEventHandler(jwPlayerContainerComponent);
-
         this.events.forEach((type) => {
             jwPlayerContainerComponent.playerInstance
                 .on(type, (event) => {

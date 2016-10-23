@@ -19,9 +19,13 @@ export class JWPlayerComponent {
         this.playerInstance.setup({
             file: this.file,
             height: this.height,
-            width: this.width
+            width: this.width,
+            setFullScreen: true,
+            events: this.events
         });        
     }
+
+    public events: any;
 
     public seek = position => this.playerInstance.seek(position);
 }
