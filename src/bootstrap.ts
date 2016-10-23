@@ -1,16 +1,14 @@
 ﻿import { JWPlayerContainerComponent } from "./components";
-import { Analytics, State, ErrorHandler, EventHub } from "./services";
+import { Analytics, ErrorHandler, EventHub } from "./services";
 
 declare var jwplayer;
 
-EventHub.Instance.addEventHandler(Analytics);
-EventHub.Instance.addEventHandler(State);
-EventHub.Instance.addEventHandler(ErrorHandler);
-
-export const bootstrap = (rootElement: HTMLElement, key: string) => {         
+export const bootstrap = (rootElement: HTMLElement, key: string, handlers = []) => {         
     jwplayer.key = key;       
 
-    const jwPlayerElements:NodeList = rootElement.querySelectorAll('div[jw-player]');
+    EventHub.Instance.addEventHandlers([Analytics, ErrorHandler,...handlers]);
+
+    const jwPlayerElements: NodeList = rootElement.querySelectorAll('div[jw-player]');
     
     for (var i = 0; i < jwPlayerElements.length; i++) {
         var element = jwPlayerElements[i] as HTMLElement;
@@ -21,7 +19,7 @@ export const bootstrap = (rootElement: HTMLElement, key: string) => {
         jwPlayerContainerComponent.index = i;
         jwPlayerContainerComponent.activate();
         
-        EventHub.Instance.addJWPlayer(JWPlayerContainerComponent);        
+        EventHub.Instance.addJWPlayer(jwPlayerContainerComponent);        
     }
 
 }

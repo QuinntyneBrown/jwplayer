@@ -22,4 +22,6 @@ export class JWPlayerComponent {
             width: this.width
         });        
     }
+
+    public seek = position => this.playerInstance.seek(position);
 }

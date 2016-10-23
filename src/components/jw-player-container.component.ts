@@ -1,8 +1,9 @@
 ﻿import { JWPlayerComponent } from "./jw-player.component";
 import { NotificationsComponent } from "./notifications.component";
 import { TitleComponent } from "./title.component";
+import { LocalStorageService } from "../services";
 
-import { emit } from "../utils";
+import { PLAYER_POSITION } from "../constants";
 
 export class JWPlayerContainerComponent {
     constructor(private _nativeElement: HTMLElement) { }
@@ -14,14 +15,22 @@ export class JWPlayerContainerComponent {
 
     public activate() {
         this._nativeElement.innerHTML = require("../templates/jw-player-container.html");        
-        this.jwPlayerComponent = new JWPlayerComponent(this._jwPlayerNativeElement);
-        this.jwPlayerComponent.file = this.file;
-        this.jwPlayerComponent.height = this.height;
-        this.jwPlayerComponent.width = this.width;        
+        this._jwPlayerComponent = new JWPlayerComponent(this._jwPlayerNativeElement);
+        this._jwPlayerComponent.file = this.file;
+        this._jwPlayerComponent.height = this.height;
+        this._jwPlayerComponent.width = this.width;        
         this._notificationsComponent = new NotificationsComponent(this._notificationsNativeElement);
-        this.jwPlayerComponent.activate();        
+        this._jwPlayerComponent.activate();        
     }
-    
+
+    public get position() {
+        return LocalStorageService.Instance.get({ name: `${PLAYER_POSITION}-${this.index}` })
+    }
+
+    public set position(value) {
+        LocalStorageService.Instance.put({ name: `${PLAYER_POSITION}-${this.index}`, value: value })
+    }
+
     public onPlayerEvent = (event: any) => {
         switch (event.playerEventType) {
             case "bufferChange":
@@ -39,11 +48,26 @@ export class JWPlayerContainerComponent {
             case "play":
                 this._state = "play";
                 break;
+
+            case "time":
+                this.position = event.playerEvent.position;
+                break;
+
+            case "ready":
+                this._jwPlayerComponent.seek(this.position);
+                break;
+
+            case "complete":
+                this.position = 0;
+                break; 
         }
     }    
     
-    private _state: string;
-    public jwPlayerComponent: JWPlayerComponent;
+    public get playerInstance() { return this._jwPlayerComponent.playerInstance; }
+
+    private _jwPlayerComponent: JWPlayerComponent;
+
+    private _state: string;    
     private _notificationsComponent: NotificationsComponent;
     private get _jwPlayerNativeElement(): HTMLElement {
         return this._nativeElement.querySelector(".jw-player") as HTMLElement;

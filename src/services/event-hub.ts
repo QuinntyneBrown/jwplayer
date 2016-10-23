@@ -1,4 +1,11 @@
-﻿import { emit } from "../utils";
+﻿export const emit = (eventName: string, $event: any) => {
+    var event = document.createEvent('Event');
+    event.initEvent(eventName, true, true);
+    for (var prop in $event) {
+        event[prop] = $event[prop];
+    }
+    document.dispatchEvent(event);
+}
 
 export class EventHub {
 
@@ -29,19 +36,23 @@ export class EventHub {
         this._handlers.push(handler)
     }
 
+    public addEventHandlers(handlers: Array<{ onPlayerEvent: Function, index?: number }>) {
+        handlers.forEach((handler) => this.addEventHandler(handler));
+    }
+
     public addJWPlayer(jwPlayerContainerComponent: any) {
 
         this.addEventHandler(jwPlayerContainerComponent);
 
         this.events.forEach((type) => {
-            jwPlayerContainerComponent.jwPlayerComponent.playerInstance
+            jwPlayerContainerComponent.playerInstance
                 .on(type, (event) => {
                     emit("playerEvent",
                         {
                             index: jwPlayerContainerComponent.index,
                             playerEvent: event,
                             playerEventType: type,
-                            playerInstance: jwPlayerContainerComponent.jwPlayerComponent.playerInstance
+                            playerInstance: jwPlayerContainerComponent.playerInstance
                         }
                     );
                 });
