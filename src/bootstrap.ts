@@ -1,17 +1,14 @@
 ﻿import { JWPlayerContainerComponent } from "./components";
-import { Analytics, State, ErrorHandler } from "./services";
+import { Analytics, State, ErrorHandler, EventHub } from "./services";
 
 declare var jwplayer;
 
+EventHub.Instance.addEventHandler(Analytics);
+EventHub.Instance.addEventHandler(State);
+EventHub.Instance.addEventHandler(ErrorHandler);
+
 export const bootstrap = (rootElement: HTMLElement, key: string) => {         
     jwplayer.key = key;       
-    document.addEventListener('playerEvent', function (event: any) {
-        // add more built-in handlers to player event here...
-        // Consumers of the player can add handlers by listening for the custom event
-        Analytics.onPlayerEvent(event);
-        State.onPlayerEvent(event);
-        ErrorHandler.onPlayerEvent(event);
-    });
 
     const jwPlayerElements:NodeList = rootElement.querySelectorAll('div[jw-player]');
     
@@ -21,7 +18,10 @@ export const bootstrap = (rootElement: HTMLElement, key: string) => {
         jwPlayerContainerComponent.file = element.getAttribute("[file]");
         jwPlayerContainerComponent.height = element.getAttribute("[height]");
         jwPlayerContainerComponent.width = element.getAttribute("[width]");
+        jwPlayerContainerComponent.index = i;
         jwPlayerContainerComponent.activate();
+        
+        EventHub.Instance.addJWPlayer(JWPlayerContainerComponent);        
     }
 
 }

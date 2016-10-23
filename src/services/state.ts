@@ -6,20 +6,16 @@ export class State {
     public static onPlayerEvent(event) {
         switch (event.playerEventType) {
             case "time":
-                LocalStorageService.Instance.put({ name: PLAYER_POSITION, value: event.playerEvent.position });
+                LocalStorageService.Instance.put({ name: `${PLAYER_POSITION}-${event.index}`, value: event.playerEvent.position });
                 break;
 
             case "ready":
-                event.playerInstance.seek(LocalStorageService.Instance.get({ name: PLAYER_POSITION }));
+                event.playerInstance.seek(LocalStorageService.Instance.get({ name: `${PLAYER_POSITION}-${event.index}` }));
                 break;
 
             case "complete":
-                LocalStorageService.Instance.clear();
-                break;
-
-            case "buffer":
-                
-                break;
+                LocalStorageService.Instance.put({ name: `${PLAYER_POSITION}-${event.index}`, value: 0 });
+                break;                
         }
     }
 }
