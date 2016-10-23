@@ -72,17 +72,16 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dist\app.js" />
+    <Content Include="dist\jwplayerlib.js" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <Content Include="src\templates\jw-player-container.html" />
     <Content Include="vendor\jwplayer.js" />
-    <Content Include="videos\egghead-create-a-list-component-in-vuejs.mp4" />
     <Content Include="webpack.config.js" />
     <Content Include="package.json" />
-    <Content Include="dist\app.js.map" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
+    <Content Include="dist\jwplayerlib.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -103,13 +102,16 @@
     <TypeScriptCompile Include="src\components\notifications.component.ts" />
     <TypeScriptCompile Include="src\components\index.ts" />
     <TypeScriptCompile Include="src\components\title.component.ts" />
+    <TypeScriptCompile Include="src\constants\jw-player.ts" />
     <TypeScriptCompile Include="src\services\analytics.ts" />
     <TypeScriptCompile Include="src\services\error.ts" />
     <TypeScriptCompile Include="src\services\local-storage-service.ts" />
     <TypeScriptCompile Include="src\services\state.ts" />
-    <TypeScriptCompile Include="src\utils\event-emitter.ts" />
+    <TypeScriptCompile Include="src\utils\emit.ts" />
     <TypeScriptCompile Include="src\services\index.ts" />
+    <TypeScriptCompile Include="src\utils\guid.ts" />
     <TypeScriptCompile Include="src\utils\index.ts" />
+    <TypeScriptCompile Include="src\constants\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

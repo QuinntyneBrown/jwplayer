@@ -1,1 +1,2 @@
-export * from "./event-emitter";
+export * from "./emit";
+export * from "./guid";
