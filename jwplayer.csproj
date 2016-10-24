@@ -101,6 +101,7 @@
     <TypeScriptCompile Include="src\components\index.ts" />
     <TypeScriptCompile Include="src\decorators\log.ts" />
     <TypeScriptCompile Include="src\decorators\notify.ts" />
+    <TypeScriptCompile Include="src\environment.ts" />
     <TypeScriptCompile Include="src\services\local-storage-service.ts" />
     <TypeScriptCompile Include="src\services\index.ts" />
     <TypeScriptCompile Include="src\decorators\index.ts" />
