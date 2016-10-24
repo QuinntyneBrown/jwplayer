@@ -1,5 +1,5 @@
 ﻿import { LocalStorageService } from "../services";
-import { Notify } from "../decorators";
+import { Notify, Log } from "../decorators";
 
 export class JWPlayerComponent {
     constructor(private _element: HTMLElement, public playerInstance:any, public file, private height, private width, private index) {
@@ -37,6 +37,7 @@ export class JWPlayerComponent {
     public onComplete() { this.position = 0; }
 
     @Notify("time")
+    @Log()
     public onTime(event) { this.position = event.position; }
 
     public onBeforePlay(event) {
@@ -57,8 +58,10 @@ export class JWPlayerComponent {
             : "";
     }
 
+    @Log()
+    @Notify("playlistitem")
     public onPlaylistItem(event) {
-
+        
     }
     
     public onBuffer() { this._state = "buffer"; }

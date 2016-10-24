@@ -7,7 +7,7 @@
             e["jwplayerinstance"] = target;
             e["jwplayerevent"] = args[0];
             e["jwplayereventname"] = jwplayereventname;
-            document.dispatchEvent(e);
+            document.dispatchEvent(e);            
             return originalMethod.apply(this, args);
         }
 

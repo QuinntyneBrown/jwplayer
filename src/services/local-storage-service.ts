@@ -5,7 +5,7 @@
 
     private static _instance;
 
-    public static key = "[Local Storage Service]";
+    public static key;
 
     public static get Instance(): LocalStorageService {        
         LocalStorageService._instance = LocalStorageService._instance || new LocalStorageService();

@@ -1,9 +1,11 @@
 ﻿import { JWPlayerComponent } from "./components";
+import { LocalStorageService } from "./services";
 
 declare var jwplayer;
 
-export const bootstrap = (root: HTMLElement, key: string, handlers = []) => {         
+export const bootstrap = (root: HTMLElement, key: string, localStorageKey) => {         
     jwplayer.key = key;       
+    LocalStorageService.key = localStorageKey;
 
     const jwPlayerElements: NodeList = root.querySelectorAll('div[jw-player]');
     
