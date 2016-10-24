@@ -13,7 +13,7 @@ export class JWPlayerComponent {
     
     public activate() {        
         this._element.innerHTML = require("../templates/jw-player-container.html");                
-        this._notificationsComponent = new NotificationsComponent(this._notificationsElement);
+        this._notificationsComponent = new NotificationsComponent(this._element.querySelector(".jw-player-notifications"));
         this.playerInstance.setup({
             file: this.file,
             height: this.height,
@@ -35,7 +35,7 @@ export class JWPlayerComponent {
     private _playerInstance: any = null;
 
     public get playerInstance(): any {
-        this._playerInstance = this._playerInstance || jwplayer(this._jwPlayerElement);
+        this._playerInstance = this._playerInstance || jwplayer(this._element.querySelector(".jw-player"));
         return this._playerInstance;
     }
 
@@ -63,13 +63,10 @@ export class JWPlayerComponent {
 
     public onPause() { this._state = "pause"; }
 
-    public events: Array<string> = ['buffer', 'bufferChange', 'ready', 'play', 'pause', 'complete', 'seek', 'error', 'playlistItem', 'time', 'firstFrame'];
-
     private _jwPlayerComponent: JWPlayerComponent;
     private _state: string;    
     private _notificationsComponent: NotificationsComponent;
-    private get _jwPlayerElement(): HTMLElement { return this._element.querySelector(".jw-player") as HTMLElement; }
-    private get _notificationsElement(): HTMLElement { return this._element.querySelector(".jw-player-notifications") as HTMLElement; }
+    
     public title: string;
     public file: string;
     public height: string;
