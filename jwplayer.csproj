@@ -7,8 +7,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
+    <ProductVersion></ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CEC80A71-9FF8-459C-89E9-AFFA2CEDAFFD}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -23,8 +22,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <TypeScriptEmitDecoratorMetadata>true</TypeScriptEmitDecoratorMetadata>
     <TypeScriptModuleKind>commonjs</TypeScriptModuleKind>
@@ -97,18 +95,16 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\bootstrap.ts" />
-    <TypeScriptCompile Include="src\components\jw-player-container.component.ts" />
     <TypeScriptCompile Include="src\components\jw-player.component.ts" />
     <TypeScriptCompile Include="src\components\notifications.component.ts" />
     <TypeScriptCompile Include="src\components\index.ts" />
     <TypeScriptCompile Include="src\components\title.component.ts" />
     <TypeScriptCompile Include="src\constants\jw-player.ts" />
-    <TypeScriptCompile Include="src\services\analytics.ts" />
-    <TypeScriptCompile Include="src\services\error.ts" />
-    <TypeScriptCompile Include="src\services\event-hub.ts" />
+    <TypeScriptCompile Include="src\decorators\notify.ts" />
     <TypeScriptCompile Include="src\services\local-storage-service.ts" />
     <TypeScriptCompile Include="src\services\index.ts" />
     <TypeScriptCompile Include="src\constants\index.ts" />
+    <TypeScriptCompile Include="src\decorators\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -132,8 +128,7 @@
           <IISUrl>http://localhost:64941/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl></CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
