@@ -2,7 +2,7 @@
 import { Notify, Log } from "../decorators";
 
 export class JWPlayerComponent {
-    constructor(private _element: HTMLElement, public playerInstance:any, public file, private height, private width, private index) {
+    constructor(private _element: any, public playerInstance:any, public file, private height, private width, private index) {
         _element.innerHTML = require("../templates/jw-player.html");
 
         playerInstance.setup({
@@ -13,7 +13,9 @@ export class JWPlayerComponent {
             events: {
                 onReady: event => this.onReady(),
                 onComplete: event => this.onComplete(),
+                onError: event => this.onError(event),
                 onPlay: event => this.onPlay(),
+                onFirstFrame: event => this.onFirstFrame(event),
                 onBuffer: event => this.onBuffer(),
                 onBufferChange: event => this.onBufferChange(event),
                 onIdle: event => this.onIdle(),
@@ -40,6 +42,11 @@ export class JWPlayerComponent {
     @Log()
     public onTime(event) { this.position = event.position; }
 
+    @Log()
+    public onFirstFrame(event) {
+
+    }
+
     public onBeforePlay(event) {
 
     }
@@ -53,9 +60,13 @@ export class JWPlayerComponent {
     }
 
     public onBufferChange(event) {
-        this.message = this._state == "buffer"
-            ? event.bufferPercent
+        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == "buffer"
+            ? `buffer: ${event.bufferPercent}%`
             : "";
+    }
+
+    public onError(event) {
+        
     }
 
     @Log()
@@ -66,17 +77,17 @@ export class JWPlayerComponent {
     
     public onBuffer() { this._state = "buffer"; }
 
+    @Notify("play")
     public onPlay() { this._state = "play"; }
 
     public onIdle() { this._state = "idle"; }
 
     public onPause() { this._state = "pause"; }
 
-    public set message(value: string) { (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = value; }
-        
+    public get position() { return LocalStorageService.Instance.get({ name: `jw-player-position-${this.index}` }) }
+
+    public set position(value) { LocalStorageService.Instance.put({ name: `jw-player-position-${this.index}`, value: value }) }
+
     private _state: string;    
 
-    public get position() { return LocalStorageService.Instance.get({ name: `jwplayer-position-${this.index}` }) }
-
-    public set position(value) { LocalStorageService.Instance.put({ name: `jwplayer-position-${this.index}`, value: value }) }
 }

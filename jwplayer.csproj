@@ -74,6 +74,7 @@
   <ItemGroup>
     <Content Include="dist\jwplayerlib.js" />
     <Content Include="index.html" />
+    <Content Include="Netflix-JavaScript-Talks-RxJS-Version-5.mp4" />
     <Content Include="packages.config" />
     <Content Include="src\templates\jw-player.html" />
     <Content Include="vendor\jwplayer.js" />
