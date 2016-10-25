@@ -1,6 +1,6 @@
 ﻿export class Store {
-    constructor() {
-        window.onbeforeunload = () => localStorage.setItem(Store.key, JSON.stringify(this._items))
+    constructor(private _localStorage = localStorage, private _window = window) {
+        _window.onbeforeunload = () => _localStorage.setItem(Store.key, JSON.stringify(this._items))
     }
 
     private static _instance;
@@ -16,7 +16,7 @@
 
     public get items() {
         if (this._items === null) {
-            var storageItems = localStorage.getItem(Store.key);
+            var storageItems = this._localStorage.getItem(Store.key);
             if (storageItems === "null") {
                 storageItems = null;
             }
