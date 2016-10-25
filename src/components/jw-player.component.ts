@@ -1,38 +1,36 @@
-﻿import { LocalStorageService } from "../services";
+﻿import { Store } from "../services";
 import { Notify, Log } from "../decorators";
 
 export class JWPlayerComponent {
-    constructor(private _element: any, public playerInstance:any, private _store:LocalStorageService, private height, private width, private playlist, private index) {                
+    constructor(private _element: any, public playerInstance:any, private _store:Store, private height, private width, private playlist, private index) {                
         playerInstance.setup({
             height: height,
             width: width,
             setFullScreen: true,
             playlist: playlist,
             events: {
-                onReady: event => this.onReady(),
-                onComplete: event => this.onComplete(),
-                onError: event => this.onError(event),
-                onPlay: event => this.onPlay(),
-                onFirstFrame: event => this.onFirstFrame(event),
+                onAdCompanions: event => this.onAdCompanions(event),
+                onBeforeComplete: event => this.onBeforeComplete(event),
+                onBeforePlay: event => this.onBeforePlay(event),
                 onBuffer: event => this.onBuffer(),
                 onBufferChange: event => this.onBufferChange(event),
-                onIdle: event => this.onIdle(),
-                onPause: event => this.onPause(),
-                onTime: event => this.onTime(event),
-                onBeforePlay: event => this.onBeforePlay(event),
-                onBeforeComplete: event => this.onBeforeComplete(event),
-                onAdCompanions: event => this.onAdCompanions(event),
+                onComplete: event => this.onComplete(),                                
+                onError: event => this.onError(event),                
+                onFirstFrame: event => this.onFirstFrame(event),
+                onIdle: event => this.onIdle(),       
+                onPlay: event => this.onPlay(),         
+                onPlaylistComplete: event => this.onPlaylistComplete(),                
                 onPlaylistItem: event => this.onPlaylistItem(event),
-                onPlaylistComplete: event => this.onPlaylistComplete()
+                onPause: event => this.onPause(),
+                onReady: event => this.onReady(),
+                onTime: event => this.onTime(event)                
             }
         });
     }
     
     @Log()
     @Notify("ready")
-    public onReady() {
-
-    }
+    public onReady() { }
     
     @Log()
     @Notify("complete")
@@ -47,24 +45,16 @@ export class JWPlayerComponent {
     public onTime(event) { this.position = event.position; }
 
     @Log()
-    public onFirstFrame(event) {
-
-    }
+    public onFirstFrame(event) { }
 
     @Log()
-    public onBeforePlay(event) {
-
-    }
+    public onBeforePlay(event) { }
 
     @Log()
-    public onBeforeComplete(event) {
-
-    }
+    public onBeforeComplete(event) { }
 
     @Log()
-    public onAdCompanions(event) {
-
-    }
+    public onAdCompanions(event) { }
 
     @Log()
     public onBufferChange(event) {
@@ -81,21 +71,22 @@ export class JWPlayerComponent {
 
     @Log()
     @Notify("playlistitem")
-    public onPlaylistItem(event) {    
+    public onPlaylistItem(event) {           
         if (!this._playlistLoaded && this.playlistIndex > 0) {
             this._playlistLoaded = true; 
             this.playerInstance.playlistItem(this.playlistIndex);            
             this.playerInstance.seek(this.position);
         } else {
-            this.setPlaylistIndex({ value: event.index });
+            this.setPlaylistIndexAndFile({ playlistIndex: event.index, file: event.item.file });
             this.playerInstance.seek(this.position);
         }               
     }
 
     @Log()
     @Notify("setplaylistitem")
-    public setPlaylistIndex(options) {
-        this.playlistIndex = options.value;
+    public setPlaylistIndexAndFile(options) {
+        this.playlistIndex = options.playlistIndex;
+        this.currentFile = options.file;
     }
 
     @Log()
@@ -121,5 +112,10 @@ export class JWPlayerComponent {
     private _state: string;    
 
     private _playlistLoaded = false;
+
+    public get currentFile() { return this._store.get({ name: `jw-player-current-file-${this.index}` }) }
+
+    public set currentFile(value) { this._store.put({ name: `jw-player-current-file-${this.index}`, value: value }) }
+
 
 }

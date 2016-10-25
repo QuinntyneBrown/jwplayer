@@ -1,22 +1,22 @@
-﻿export class LocalStorageService {
+﻿export class Store {
     constructor() {
-        window.onbeforeunload = () => localStorage.setItem(LocalStorageService.key, JSON.stringify(this._items))
+        window.onbeforeunload = () => localStorage.setItem(Store.key, JSON.stringify(this._items))
     }
 
     private static _instance;
 
     public static key;
 
-    public static get Instance(): LocalStorageService {        
-        LocalStorageService._instance = LocalStorageService._instance || new LocalStorageService();
-        return LocalStorageService._instance;
+    public static get Instance(): Store {        
+        Store._instance = Store._instance || new Store();
+        return Store._instance;
     }
 
     private _items = null;
 
     public get items() {
         if (this._items === null) {
-            var storageItems = localStorage.getItem(LocalStorageService.key);
+            var storageItems = localStorage.getItem(Store.key);
             if (storageItems === "null") {
                 storageItems = null;
             }
