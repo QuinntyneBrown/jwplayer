@@ -2,7 +2,7 @@
 import { Notify, Log } from "../decorators";
 
 export class JWPlayerComponent {
-    constructor(private _element: any, public playerInstance:any, private _localStorage:LocalStorageService, private height, private width, private playlist, private index) {                
+    constructor(private _element: any, public playerInstance:any, private _store:LocalStorageService, private height, private width, private playlist, private index) {                
         playerInstance.setup({
             height: height,
             width: width,
@@ -22,7 +22,8 @@ export class JWPlayerComponent {
                 onBeforePlay: event => this.onBeforePlay(event),
                 onBeforeComplete: event => this.onBeforeComplete(event),
                 onAdCompanions: event => this.onAdCompanions(event),
-                onPlaylistItem: event => this.onPlaylistItem(event)
+                onPlaylistItem: event => this.onPlaylistItem(event),
+                onPlaylistComplete: event => this.onPlaylistComplete()
             }
         });
     }
@@ -30,12 +31,16 @@ export class JWPlayerComponent {
     @Log()
     @Notify("ready")
     public onReady() {
-        this.playerInstance.seek(this.position);
-    }
 
+    }
+    
     @Log()
     @Notify("complete")
-    public onComplete() { this.position = 0; }
+    public onComplete() { this.position = 0;}
+
+    @Log()
+    @Notify("playlistcomplete")
+    public onPlaylistComplete() { this.playlistIndex = 0; }
 
     @Notify("time")
     @Log()
@@ -76,8 +81,21 @@ export class JWPlayerComponent {
 
     @Log()
     @Notify("playlistitem")
-    public onPlaylistItem(event) {
-        
+    public onPlaylistItem(event) {    
+        if (!this._playlistLoaded && this.playlistIndex > 0) {
+            this._playlistLoaded = true; 
+            this.playerInstance.playlistItem(this.playlistIndex);            
+            this.playerInstance.seek(this.position);
+        } else {
+            this.setPlaylistIndex({ value: event.index });
+            this.playerInstance.seek(this.position);
+        }               
+    }
+
+    @Log()
+    @Notify("setplaylistitem")
+    public setPlaylistIndex(options) {
+        this.playlistIndex = options.value;
     }
 
     @Log()
@@ -91,11 +109,17 @@ export class JWPlayerComponent {
 
     @Log()
     public onPause() { this._state = "pause"; }
+    
+    public get position() { return this._store.get({ name: `jw-player-position-${this.index}` }) }
 
-    public get position() { return this._localStorage.get({ name: `jw-player-position-${this.index}` }) }
+    public set position(value) { this._store.put({ name: `jw-player-position-${this.index}`, value: value }) }
 
-    public set position(value) { this._localStorage.put({ name: `jw-player-position-${this.index}`, value: value }) }
+    public get playlistIndex() { return this._store.get({ name: `jw-player-playlist-index-${this.index}` }) }
+
+    public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index-${this.index}`, value: value }) }
 
     private _state: string;    
+
+    private _playlistLoaded = false;
 
 }
