@@ -2,7 +2,7 @@
 import { Notify, Log } from "../decorators";
 
 export class JWPlayerComponent {
-    constructor(private _element: any, public playerInstance:any, public file, private height, private width, private index) {
+    constructor(private _element: any, public playerInstance:any, private _localStorage:LocalStorageService, public file, private height, private width, private index) {
         _element.innerHTML = require("../templates/jw-player.html");
 
         playerInstance.setup({
@@ -84,9 +84,9 @@ export class JWPlayerComponent {
 
     public onPause() { this._state = "pause"; }
 
-    public get position() { return LocalStorageService.Instance.get({ name: `jw-player-position-${this.index}` }) }
+    public get position() { return this._localStorage.get({ name: `jw-player-position-${this.index}` }) }
 
-    public set position(value) { LocalStorageService.Instance.put({ name: `jw-player-position-${this.index}`, value: value }) }
+    public set position(value) { this._localStorage.put({ name: `jw-player-position-${this.index}`, value: value }) }
 
     private _state: string;    
 
