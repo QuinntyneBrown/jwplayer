@@ -72,6 +72,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="02-egghead-tools-examine-a-page-s-source-resources-with-chrome-devtools.mp4" />
+    <Content Include="03-egghead-tools-unbundle-your-javascript-with-source-maps-in-chrome-devtools.mp4" />
     <Content Include="dist\jwplayerlib.js" />
     <Content Include="index.html" />
     <Content Include="Netflix-JavaScript-Talks-RxJS-Version-5.mp4" />

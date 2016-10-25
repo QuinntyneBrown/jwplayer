@@ -2,14 +2,12 @@
 import { Notify, Log } from "../decorators";
 
 export class JWPlayerComponent {
-    constructor(private _element: any, public playerInstance:any, private _localStorage:LocalStorageService, public file, private height, private width, private index) {
-        _element.innerHTML = require("../templates/jw-player.html");
-
+    constructor(private _element: any, public playerInstance:any, private _localStorage:LocalStorageService, private height, private width, private playlist, private index) {                
         playerInstance.setup({
-            file: file,
             height: height,
             width: width,
             setFullScreen: true,
+            playlist: playlist,
             events: {
                 onReady: event => this.onReady(),
                 onComplete: event => this.onComplete(),
@@ -65,8 +63,10 @@ export class JWPlayerComponent {
             : "";
     }
 
-    public onError(event) {
-        
+    @Log()
+    @Notify("error")
+    public onError(event: { message: string }) {
+
     }
 
     @Log()

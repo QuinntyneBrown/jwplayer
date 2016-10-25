@@ -7,13 +7,21 @@
 <body>
     <h1>JW Player Implementation Using TypeScript and Webpack</h1>
     <div jw-player
-         [file]="Netflix-JavaScript-Talks-RxJS-Version-5.mp4"
          [height]="420px"
-         [width]="680px"></div>
+         [width]="680px"
+         [playlist]='[
+            { "file": "https://www.youtube.com/watch?v=r6SHADG82mQ", "type": "youtube" },
+            { "file": "https://www.youtube.com/watch?v=nDgRnqjPhjY", "type": "youtube" }
+         ]'></div>
 
     <script src="vendor/jwplayer.js"></script>
     <script src="dist/jwplayerlib.js"></script>
     <script>
+
+        document.addEventListener("jw-error", function (event) {
+            alert(event.jwplayerevent.message);
+        });
+
         document.addEventListener("DOMContentLoaded", function (event) {
             jwplayerlib.bootstrap(document.body, "RQ+gASdSAzcEhqeSCgQ7M7hHOXdBC1Jdsl+PWg==", "[Your Unique LocalStorage Key]",true);
         });
