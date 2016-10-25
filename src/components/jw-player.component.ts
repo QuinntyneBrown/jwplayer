@@ -1,5 +1,6 @@
 ﻿import { Store } from "../services";
 import { Notify, Log } from "../decorators";
+import { JW_PLAYER_STATE } from "./jw-player-state";
 
 export class JWPlayerComponent {
     constructor(private _element: any, public playerInstance:any, private _store:Store, private height, private width, private playlist, private index) {                
@@ -58,7 +59,7 @@ export class JWPlayerComponent {
 
     @Log()
     public onBufferChange(event) {
-        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == "buffer"
+        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == JW_PLAYER_STATE.BUFFERING
             ? `buffer: ${event.bufferPercent}%`
             : "";
     }
@@ -78,6 +79,7 @@ export class JWPlayerComponent {
             this.playerInstance.seek(this.position);
         } else {
             this.setPlaylistIndexAndFile({ playlistIndex: event.index, file: event.item.file });
+            this._playlistLoaded = true;
             this.playerInstance.seek(this.position);
         }               
     }
@@ -90,16 +92,16 @@ export class JWPlayerComponent {
     }
 
     @Log()
-    public onBuffer() { this._state = "buffer"; }
+    public onBuffer() { this._state = JW_PLAYER_STATE.BUFFERING; }
 
     @Notify("play")
-    public onPlay() { this._state = "play"; }
+    public onPlay() { this._state = JW_PLAYER_STATE.PLAY; }
 
     @Log()
-    public onIdle() { this._state = "idle"; }
+    public onIdle() { this._state = JW_PLAYER_STATE.IDLE; }
 
     @Log()
-    public onPause() { this._state = "pause"; }
+    public onPause() { this._state = JW_PLAYER_STATE.PAUSE; }
     
     public get position() { return this._store.get({ name: `jw-player-position-${this.index}` }) }
 
@@ -109,7 +111,7 @@ export class JWPlayerComponent {
 
     public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index-${this.index}`, value: value }) }
 
-    private _state: string;    
+    private _state: JW_PLAYER_STATE;    
 
     private _playlistLoaded = false;
 

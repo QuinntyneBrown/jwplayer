@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\bootstrap.ts" />
+    <TypeScriptCompile Include="src\components\jw-player-state.ts" />
     <TypeScriptCompile Include="src\components\jw-player.component.ts" />
     <TypeScriptCompile Include="src\components\index.ts" />
     <TypeScriptCompile Include="src\decorators\log.ts" />
