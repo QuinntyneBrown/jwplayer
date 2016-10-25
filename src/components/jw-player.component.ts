@@ -27,12 +27,13 @@ export class JWPlayerComponent {
         });
     }
     
-    
+    @Log()
     @Notify("ready")
     public onReady() {
         this.playerInstance.seek(this.position);
     }
 
+    @Log()
     @Notify("complete")
     public onComplete() { this.position = 0; }
 
@@ -45,18 +46,22 @@ export class JWPlayerComponent {
 
     }
 
+    @Log()
     public onBeforePlay(event) {
 
     }
 
+    @Log()
     public onBeforeComplete(event) {
 
     }
 
+    @Log()
     public onAdCompanions(event) {
 
     }
 
+    @Log()
     public onBufferChange(event) {
         (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == "buffer"
             ? `buffer: ${event.bufferPercent}%`
@@ -74,14 +79,17 @@ export class JWPlayerComponent {
     public onPlaylistItem(event) {
         
     }
-    
+
+    @Log()
     public onBuffer() { this._state = "buffer"; }
 
     @Notify("play")
     public onPlay() { this._state = "play"; }
 
+    @Log()
     public onIdle() { this._state = "idle"; }
 
+    @Log()
     public onPause() { this._state = "pause"; }
 
     public get position() { return this._localStorage.get({ name: `jw-player-position-${this.index}` }) }

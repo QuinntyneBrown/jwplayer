@@ -5,7 +5,7 @@ export function Log() {
         var originalMethod = descriptor.value;
         descriptor.value = function (...args: any[]) {
             if (environment.isDebug) {
-                console.log("Log something interesting....");
+                console.log(`${propertyKey} : ${JSON.stringify(args[0])}`);
             }
             return originalMethod.apply(this, args);
         }
