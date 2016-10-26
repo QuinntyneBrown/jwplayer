@@ -9,3 +9,9 @@ export enum jwPlayerState {
     BUFFER,
     IDLE
 }
+
+export const keys = {
+    PLAYLIST_INDEX: "PLAYLIST_INDEX",
+    POSITION: "POSITION",
+    CURRENT_FILE: "CURRENT_FILE",
+}

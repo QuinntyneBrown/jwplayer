@@ -1,6 +1,6 @@
 ﻿import { Store } from "../services";
-import { Notify, Log, Component } from "../decorators";
-import { jwPlayerState, playlistState } from "./enums";
+import { Input, Notify, Log, Component } from "../decorators";
+import { jwPlayerState, playlistState, keys } from "./enums";
 
 @Component({
     template: require("./jw-player-handler.html")
@@ -52,16 +52,15 @@ export class JWPlayerHandlerComponent {
     }
 
     @Log()
+    @Notify("complete")
+    public onComplete() { this.position = 0; }
+
+    @Log()
     @Notify("error")
     public onError(event: { message: string }) { }
     
     @Log()
-    @Notify("ready")
-    public onReady() { }
-    
-    @Log()
-    @Notify("complete")
-    public onComplete() { this.position = 0;}
+    public onIdle() { this.playerState = jwPlayerState.IDLE; }
 
     @Log()
     @Notify("playlistcomplete")
@@ -95,28 +94,29 @@ export class JWPlayerHandlerComponent {
     public onPlay() { this.playerState = jwPlayerState.PLAY; }
 
     @Log()
-    public onIdle() { this.playerState = jwPlayerState.IDLE; }
+    public onPause() { this.playerState = jwPlayerState.PAUSE; }
 
     @Log()
-    public onPause() { this.playerState = jwPlayerState.PAUSE; }
+    @Notify("ready")
+    public onReady() { }
+
+    @Notify("time")
+    @Log()
+    public onTime(event: { position: number }) { this.position = event.position; }
     
-    public get position() { return this._store.get({ name: `jw-player-position` }); }
+    public get position() { return this._store.get({ name: keys.POSITION }); }
 
-    public set position(value) { this._store.put({ name: `jw-player-position`, value: value }) }
+    public set position(value) { this._store.put({ name: keys.POSITION, value: value }) }
 
-    public get playlistIndex() { return this._store.get({ name: `jw-player-playlist` }); }
+    public get playlistIndex() { return this._store.get({ name: keys.PLAYLIST_INDEX }); }
 
-    public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index`, value: value }); }
+    public set playlistIndex(value) { this._store.put({ name: keys.PLAYLIST_INDEX, value: value }); }
 
     private playerState: jwPlayerState;   
 
     private playlistState: playlistState = playlistState.NOT_LOADED;
     
-    public get currentFile() { return this._store.get({ name: `jw-player-current-file` }); }
+    public get currentFile() { return this._store.get({ name: keys.CURRENT_FILE }); }
 
-    public set currentFile(value) { this._store.put({ name: `jw-player-current-file`, value: value }); } 
-
-    @Notify("time")
-    @Log()
-    public onTime(event: { position: number }) { this.position = event.position; }
+    public set currentFile(value) { this._store.put({ name: keys.CURRENT_FILE, value: value }); } 
 }
