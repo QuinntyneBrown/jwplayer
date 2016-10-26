@@ -1,12 +1,13 @@
 ﻿import { environment } from "../environment";
 
 export function Input() {
-    return (target, propertyKey, descriptor) => {
-        var originalMethod = descriptor.value;
-        descriptor.value = function (...args: any[]) {
-            return originalMethod.apply(this, args);
-        }
-        return descriptor;
+    return (target, propertyKey) => {
+        var inputs = Reflect.getOwnMetadata("bindingProperties", target.constructor, undefined);
+        if (inputs == null) {
+            inputs = [propertyKey];
+        } else {
+            inputs.push(propertyKey);
+        }         
+        Reflect.defineMetadata("bindingProperties", inputs, target.constructor, undefined);
     }
-
 }

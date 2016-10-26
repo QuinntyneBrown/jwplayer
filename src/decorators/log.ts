@@ -1,6 +1,6 @@
 ﻿import { environment } from "../environment";
 
-export function Log() {
+export function Log() {    
     return (target, propertyKey, descriptor) => {        
         var originalMethod = descriptor.value;
         descriptor.value = function (...args: any[]) {            

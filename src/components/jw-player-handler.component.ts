@@ -6,28 +6,30 @@ import { jwPlayerState, playlistState, keys } from "./enums";
     template: require("./jw-player-handler.html")
 })
 export class JWPlayerHandlerComponent {
-    constructor(private _element: any, public playerInstance:any, private _store:Store, private height, private width, private playlist) {                
-        playerInstance.setup({
-            height: height,
-            width: width,
+    constructor(private _element: any, public playerInstance:any, private _store:Store, private playlist) { }
+
+    public activate() {
+        this.playerInstance.setup({
+            height: this.height,
+            width: this.width,
             setFullScreen: true,
-            playlist: playlist,
+            playlist: this.playlist,
             events: {
                 onAdCompanions: event => this.onAdCompanions(event),
                 onBeforeComplete: event => this.onBeforeComplete(event),
                 onBeforePlay: event => this.onBeforePlay(event),
                 onBuffer: event => this.onBuffer(),
                 onBufferChange: event => this.onBufferChange(event),
-                onComplete: event => this.onComplete(),                                
-                onError: event => this.onError(event),                
+                onComplete: event => this.onComplete(),
+                onError: event => this.onError(event),
                 onFirstFrame: event => this.onFirstFrame(event),
-                onIdle: event => this.onIdle(),       
-                onPlay: event => this.onPlay(),         
-                onPlaylistComplete: event => this.onPlaylistComplete(),                
+                onIdle: event => this.onIdle(),
+                onPlay: event => this.onPlay(),
+                onPlaylistComplete: event => this.onPlaylistComplete(),
                 onPlaylistItem: event => this.onPlaylistItem(event),
                 onPause: event => this.onPause(),
                 onReady: event => this.onReady(),
-                onTime: event => this.onTime(event)                
+                onTime: event => this.onTime(event)
             }
         });
     }
@@ -103,6 +105,15 @@ export class JWPlayerHandlerComponent {
     @Notify("time")
     @Log()
     public onTime(event: { position: number }) { this.position = event.position; }
+
+    @Input()
+    public aspectRatio: string;
+
+    @Input()
+    public height: string;
+
+    @Input()
+    public width: string;
     
     public get position() { return this._store.get({ name: keys.POSITION }); }
 
