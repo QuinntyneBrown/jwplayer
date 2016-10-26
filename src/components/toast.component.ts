@@ -1,4 +1,3 @@
-﻿
-export class ToastComponent {
+﻿export class ToastComponent {
 
 }

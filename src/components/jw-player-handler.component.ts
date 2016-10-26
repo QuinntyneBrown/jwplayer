@@ -31,6 +31,29 @@ export class JWPlayerHandlerComponent {
             }
         });
     }
+
+    @Log()
+    public onAdCompanions(event) { }
+
+    @Log()
+    public onBeforeComplete(event) { }
+
+    @Log()
+    public onBeforePlay(event) { }
+
+    @Log()
+    public onBuffer() { this.playerState = jwPlayerState.BUFFER; }
+    
+    @Log()
+    public onBufferChange(event) {
+        (this._element.querySelector(".jw-player-toast") as HTMLElement).textContent = this.playerState == jwPlayerState.BUFFER
+            ? `buffer: ${event.bufferPercent}%`
+            : "";
+    }
+
+    @Log()
+    @Notify("error")
+    public onError(event: { message: string }) { }
     
     @Log()
     @Notify("ready")
@@ -44,43 +67,19 @@ export class JWPlayerHandlerComponent {
     @Notify("playlistcomplete")
     public onPlaylistComplete() { this.playlistIndex = 0; this.currentFile = ""; }
 
-    @Notify("time")
-    @Log()
-    public onTime(event: { position:number }) { this.position = event.position; }
-
     @Log()
     public onFirstFrame(event) { }
 
     @Log()
-    public onBeforePlay(event) { }
-
-    @Log()
-    public onBeforeComplete(event) { }
-
-    @Log()
-    public onAdCompanions(event) { }
-
-    @Log()
-    public onBufferChange(event) {
-        (this._element.querySelector(".jw-player-toast") as HTMLElement).innerText = this.playerState == jwPlayerState.BUFFER
-            ? `buffer: ${event.bufferPercent}%`
-            : "";
-    }
-
-    @Log()
-    @Notify("error")
-    public onError(event: { message: string }) { }
-
-    @Log()
     @Notify("playlistitem")
     public onPlaylistItem(event) {           
-        if (!this._playlistLoaded && this.playlistIndex > 0) {
-            this._playlistLoaded = true; 
+        if (this.playlistState == playlistState.NOT_LOADED && this.playlistIndex > 0) {
+            this.playlistState = playlistState.LOADED;
             this.playerInstance.playlistItem(this.playlistIndex);            
             this.playerInstance.seek(this.position);
         } else {
             this.setPlaylistIndexAndFile({ playlistIndex: event.index, file: event.item.file });
-            this._playlistLoaded = true;
+            this.playlistState = playlistState.LOADED;
             this.playerInstance.seek(this.position);
         }               
     }
@@ -91,10 +90,7 @@ export class JWPlayerHandlerComponent {
         this.playlistIndex = options.playlistIndex;
         this.currentFile = options.file;
     }
-
-    @Log()
-    public onBuffer() { this.playerState = jwPlayerState.BUFFER; }
-
+    
     @Notify("play")
     public onPlay() { this.playerState = jwPlayerState.PLAY; }
 
@@ -104,21 +100,23 @@ export class JWPlayerHandlerComponent {
     @Log()
     public onPause() { this.playerState = jwPlayerState.PAUSE; }
     
-    public get position() { return this._store.get({ name: `jw-player-position` }) }
+    public get position() { return this._store.get({ name: `jw-player-position` }); }
 
     public set position(value) { this._store.put({ name: `jw-player-position`, value: value }) }
 
-    public get playlistIndex() { return this._store.get({ name: `jw-player-playlist` }) }
+    public get playlistIndex() { return this._store.get({ name: `jw-player-playlist` }); }
 
-    public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index`, value: value }) }
+    public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index`, value: value }); }
 
     private playerState: jwPlayerState;   
 
-    private playlistState: playlistState;
+    private playlistState: playlistState = playlistState.NOT_LOADED;
+    
+    public get currentFile() { return this._store.get({ name: `jw-player-current-file` }); }
 
-    private _playlistLoaded = false;
+    public set currentFile(value) { this._store.put({ name: `jw-player-current-file`, value: value }); } 
 
-    public get currentFile() { return this._store.get({ name: `jw-player-current-file` }) }
-
-    public set currentFile(value) { this._store.put({ name: `jw-player-current-file`, value: value }) }    
+    @Notify("time")
+    @Log()
+    public onTime(event: { position: number }) { this.position = event.position; }
 }

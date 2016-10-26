@@ -1,5 +1,6 @@
 ﻿export enum playlistState {
-    LOADED
+    LOADED,
+    NOT_LOADED
 }
 
 export enum jwPlayerState {
