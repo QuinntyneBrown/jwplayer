@@ -62,7 +62,7 @@ export class JWPlayerHandlerComponent {
 
     @Log()
     public onBufferChange(event) {
-        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this.playerState == playlistState.BUFFER
+        (this._element.querySelector(".jw-player-toast") as HTMLElement).innerText = this.playerState == jwPlayerState.BUFFER
             ? `buffer: ${event.bufferPercent}%`
             : "";
     }
@@ -120,7 +120,5 @@ export class JWPlayerHandlerComponent {
 
     public get currentFile() { return this._store.get({ name: `jw-player-current-file` }) }
 
-    public set currentFile(value) { this._store.put({ name: `jw-player-current-file`, value: value }) }
-
-
+    public set currentFile(value) { this._store.put({ name: `jw-player-current-file`, value: value }) }    
 }
