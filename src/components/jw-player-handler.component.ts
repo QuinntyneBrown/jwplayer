@@ -1,6 +1,6 @@
 ﻿import { Store } from "../services";
 import { Notify, Log, Component } from "../decorators";
-import { jwPlayerHandlerState } from "./jw-player-handler-state";
+import { jwPlayerState, playlistState } from "./enums";
 
 @Component({
     template: require("./jw-player-handler.html")
@@ -62,7 +62,7 @@ export class JWPlayerHandlerComponent {
 
     @Log()
     public onBufferChange(event) {
-        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == jwPlayerHandlerState.BUFFER
+        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this.playerState == playlistState.BUFFER
             ? `buffer: ${event.bufferPercent}%`
             : "";
     }
@@ -93,16 +93,16 @@ export class JWPlayerHandlerComponent {
     }
 
     @Log()
-    public onBuffer() { this._state = jwPlayerHandlerState.BUFFER; }
+    public onBuffer() { this.playerState = jwPlayerState.BUFFER; }
 
     @Notify("play")
-    public onPlay() { this._state = jwPlayerHandlerState.PLAY; }
+    public onPlay() { this.playerState = jwPlayerState.PLAY; }
 
     @Log()
-    public onIdle() { this._state = jwPlayerHandlerState.IDLE; }
+    public onIdle() { this.playerState = jwPlayerState.IDLE; }
 
     @Log()
-    public onPause() { this._state = jwPlayerHandlerState.PAUSE; }
+    public onPause() { this.playerState = jwPlayerState.PAUSE; }
     
     public get position() { return this._store.get({ name: `jw-player-position` }) }
 
@@ -112,7 +112,9 @@ export class JWPlayerHandlerComponent {
 
     public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index`, value: value }) }
 
-    private _state: jwPlayerHandlerState;    
+    private playerState: jwPlayerState;   
+
+    private playlistState: playlistState;
 
     private _playlistLoaded = false;
 
