@@ -6,7 +6,7 @@ import { jwPlayerInstanceHandlerState } from "./jw-player-instance-handler-state
     template: require("./jw-player-instance-handler.html")
 })
 export class JWPlayerInstanceHandlerComponent {
-    constructor(private _element: any, public playerInstance:any, private _store:Store, private height, private width, private playlist, private index) {                
+    constructor(private _element: any, public playerInstance:any, private _store:Store, private height, private width, private playlist) {                
         playerInstance.setup({
             height: height,
             width: width,
@@ -42,7 +42,7 @@ export class JWPlayerInstanceHandlerComponent {
 
     @Log()
     @Notify("playlistcomplete")
-    public onPlaylistComplete() { this.playlistIndex = 0; }
+    public onPlaylistComplete() { this.playlistIndex = 0; this.currentFile = ""; }
 
     @Notify("time")
     @Log()
@@ -104,21 +104,21 @@ export class JWPlayerInstanceHandlerComponent {
     @Log()
     public onPause() { this._state = jwPlayerInstanceHandlerState.PAUSE; }
     
-    public get position() { return this._store.get({ name: `jw-player-position-${this.index}` }) }
+    public get position() { return this._store.get({ name: `jw-player-position` }) }
 
-    public set position(value) { this._store.put({ name: `jw-player-position-${this.index}`, value: value }) }
+    public set position(value) { this._store.put({ name: `jw-player-position`, value: value }) }
 
-    public get playlistIndex() { return this._store.get({ name: `jw-player-playlist-index-${this.index}` }) }
+    public get playlistIndex() { return this._store.get({ name: `jw-player-playlist` }) }
 
-    public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index-${this.index}`, value: value }) }
+    public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index`, value: value }) }
 
     private _state: jwPlayerInstanceHandlerState;    
 
     private _playlistLoaded = false;
 
-    public get currentFile() { return this._store.get({ name: `jw-player-current-file-${this.index}` }) }
+    public get currentFile() { return this._store.get({ name: `jw-player-current-file` }) }
 
-    public set currentFile(value) { this._store.put({ name: `jw-player-current-file-${this.index}`, value: value }) }
+    public set currentFile(value) { this._store.put({ name: `jw-player-current-file`, value: value }) }
 
 
 }
