@@ -1,4 +1,7 @@
-﻿import { JWPlayerInstanceHandlerComponent } from "./components";
+﻿import 'core-js/es6';
+import 'reflect-metadata';
+
+import { JWPlayerInstanceHandlerComponent } from "./components";
 import { Store } from "./services";
 import { environment } from "./environment";
 

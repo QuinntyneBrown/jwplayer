@@ -29,6 +29,7 @@
     "webpack": "^2.1.0-beta.21"
   },
   "dependencies": {
-    "@types/reflect-metadata": "0.0.5"
+    "@types/reflect-metadata": "0.0.5",
+    "core-js": "^2.4.1"
   }
 }
