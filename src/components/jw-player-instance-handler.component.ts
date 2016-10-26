@@ -1,8 +1,11 @@
 ﻿import { Store } from "../services";
-import { Notify, Log } from "../decorators";
-import { JW_PLAYER_STATE } from "./jw-player-state";
+import { Notify, Log, Component } from "../decorators";
+import { jwPlayerInstanceHandlerState } from "./jw-player-instance-handler-state";
 
-export class JWPlayerComponent {
+@Component({
+    template: require("./jw-player-instance-handler.html")
+})
+export class JWPlayerInstanceHandlerComponent {
     constructor(private _element: any, public playerInstance:any, private _store:Store, private height, private width, private playlist, private index) {                
         playerInstance.setup({
             height: height,
@@ -43,7 +46,7 @@ export class JWPlayerComponent {
 
     @Notify("time")
     @Log()
-    public onTime(event) { this.position = event.position; }
+    public onTime(event: { position:number }) { this.position = event.position; }
 
     @Log()
     public onFirstFrame(event) { }
@@ -59,16 +62,14 @@ export class JWPlayerComponent {
 
     @Log()
     public onBufferChange(event) {
-        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == JW_PLAYER_STATE.BUFFERING
+        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == jwPlayerInstanceHandlerState.BUFFER
             ? `buffer: ${event.bufferPercent}%`
             : "";
     }
 
     @Log()
     @Notify("error")
-    public onError(event: { message: string }) {
-
-    }
+    public onError(event: { message: string }) { }
 
     @Log()
     @Notify("playlistitem")
@@ -92,16 +93,16 @@ export class JWPlayerComponent {
     }
 
     @Log()
-    public onBuffer() { this._state = JW_PLAYER_STATE.BUFFERING; }
+    public onBuffer() { this._state = jwPlayerInstanceHandlerState.BUFFER; }
 
     @Notify("play")
-    public onPlay() { this._state = JW_PLAYER_STATE.PLAY; }
+    public onPlay() { this._state = jwPlayerInstanceHandlerState.PLAY; }
 
     @Log()
-    public onIdle() { this._state = JW_PLAYER_STATE.IDLE; }
+    public onIdle() { this._state = jwPlayerInstanceHandlerState.IDLE; }
 
     @Log()
-    public onPause() { this._state = JW_PLAYER_STATE.PAUSE; }
+    public onPause() { this._state = jwPlayerInstanceHandlerState.PAUSE; }
     
     public get position() { return this._store.get({ name: `jw-player-position-${this.index}` }) }
 
@@ -111,7 +112,7 @@ export class JWPlayerComponent {
 
     public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index-${this.index}`, value: value }) }
 
-    private _state: JW_PLAYER_STATE;    
+    private _state: jwPlayerInstanceHandlerState;    
 
     private _playlistLoaded = false;
 

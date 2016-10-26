@@ -39,7 +39,7 @@
         return storageItem;
     }
 
-    public put = (options: any) => {
+    public put = (options: { name: string, value: string }) => {
         var itemExists = false;
 
         this._items.forEach((item: any) => {

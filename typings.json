@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "reflect-metadata": "registry:dt/reflect-metadata#0.0.0+20160630155503",
     "require": "registry:dt/require#2.1.20+20160316155526"
   }
 }
