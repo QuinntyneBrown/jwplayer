@@ -1,2 +1,2 @@
-export * from "./jw-player-instance-handler-state";
-export * from "./jw-player-instance-handler.component";
+export * from "./jw-player-handler-state";
+export * from "./jw-player-handler.component";

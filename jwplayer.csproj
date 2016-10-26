@@ -74,17 +74,15 @@
   <ItemGroup>
     <Content Include="egghead-1.mp4" />
     <Content Include="egghead-2.mp4" />
-    <Content Include="dist\jwplayerlib.js" />
     <Content Include="index.html" />
     <Content Include="Netflix-JavaScript-Talks-RxJS-Version-5.mp4" />
     <Content Include="packages.config" />
-    <Content Include="src\components\jw-player-instance-handler.html" />
+    <Content Include="src\components\jw-player-handler.html" />
     <Content Include="vendor\jwplayer.js" />
     <Content Include="webpack.config.js" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
-    <Content Include="dist\jwplayerlib.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -100,8 +98,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\bootstrap.ts" />
-    <TypeScriptCompile Include="src\components\jw-player-instance-handler-state.ts" />
-    <TypeScriptCompile Include="src\components\jw-player-instance-handler.component.ts" />
+    <TypeScriptCompile Include="src\components\jw-player-handler-state.ts" />
+    <TypeScriptCompile Include="src\components\jw-player-handler.component.ts" />
     <TypeScriptCompile Include="src\components\index.ts" />
     <TypeScriptCompile Include="src\decorators\component.ts" />
     <TypeScriptCompile Include="src\decorators\input.ts" />
@@ -118,7 +116,9 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="dist\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

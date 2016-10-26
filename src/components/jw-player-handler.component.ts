@@ -1,11 +1,11 @@
 ﻿import { Store } from "../services";
 import { Notify, Log, Component } from "../decorators";
-import { jwPlayerInstanceHandlerState } from "./jw-player-instance-handler-state";
+import { jwPlayerHandlerState } from "./jw-player-handler-state";
 
 @Component({
-    template: require("./jw-player-instance-handler.html")
+    template: require("./jw-player-handler.html")
 })
-export class JWPlayerInstanceHandlerComponent {
+export class JWPlayerHandlerComponent {
     constructor(private _element: any, public playerInstance:any, private _store:Store, private height, private width, private playlist) {                
         playerInstance.setup({
             height: height,
@@ -62,7 +62,7 @@ export class JWPlayerInstanceHandlerComponent {
 
     @Log()
     public onBufferChange(event) {
-        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == jwPlayerInstanceHandlerState.BUFFER
+        (this._element.querySelector(".jw-player-notifications") as HTMLElement).innerText = this._state == jwPlayerHandlerState.BUFFER
             ? `buffer: ${event.bufferPercent}%`
             : "";
     }
@@ -93,16 +93,16 @@ export class JWPlayerInstanceHandlerComponent {
     }
 
     @Log()
-    public onBuffer() { this._state = jwPlayerInstanceHandlerState.BUFFER; }
+    public onBuffer() { this._state = jwPlayerHandlerState.BUFFER; }
 
     @Notify("play")
-    public onPlay() { this._state = jwPlayerInstanceHandlerState.PLAY; }
+    public onPlay() { this._state = jwPlayerHandlerState.PLAY; }
 
     @Log()
-    public onIdle() { this._state = jwPlayerInstanceHandlerState.IDLE; }
+    public onIdle() { this._state = jwPlayerHandlerState.IDLE; }
 
     @Log()
-    public onPause() { this._state = jwPlayerInstanceHandlerState.PAUSE; }
+    public onPause() { this._state = jwPlayerHandlerState.PAUSE; }
     
     public get position() { return this._store.get({ name: `jw-player-position` }) }
 
@@ -112,7 +112,7 @@ export class JWPlayerInstanceHandlerComponent {
 
     public set playlistIndex(value) { this._store.put({ name: `jw-player-playlist-index`, value: value }) }
 
-    private _state: jwPlayerInstanceHandlerState;    
+    private _state: jwPlayerHandlerState;    
 
     private _playlistLoaded = false;
 
