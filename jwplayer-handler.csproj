@@ -101,7 +101,6 @@
     <TypeScriptCompile Include="src\components\enums.ts" />
     <TypeScriptCompile Include="src\components\jw-player-handler.component.ts" />
     <TypeScriptCompile Include="src\components\index.ts" />
-    <TypeScriptCompile Include="src\components\models.ts" />
     <TypeScriptCompile Include="src\components\toast.component.ts" />
     <TypeScriptCompile Include="src\decorators\component.ts" />
     <TypeScriptCompile Include="src\decorators\input.ts" />

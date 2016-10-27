@@ -1,15 +1,23 @@
 ﻿import { Store } from "../services";
 import { Input, Notify, Log, Component } from "../decorators";
 import { jwPlayerState, playlistState, keys } from "./enums";
-import { Media, Playlist } from "./models";
+
+declare var jwplayer;
 
 @Component({
     template: require("./jw-player-handler.html")
 })
 export class JWPlayerHandlerComponent {
-    constructor(private _element: any, public playerInstance:any, private _store:Store, private playlist) { }
+    constructor(private _element: any, private _store:Store) { }
 
-    public activate() {    
+    private _playerInstance;
+
+    private get playerInstance() {
+        this._playerInstance = this._playerInstance || jwplayer(this._element.querySelector(".jw-player"));
+        return this._playerInstance;
+    }
+
+    public activate() {            
         this.playerInstance.setup({
             height: this.height,
             width: this.width,
@@ -80,9 +88,9 @@ export class JWPlayerHandlerComponent {
     public onPlaylistItem(event) {          
         if (this.playlistState != playlistState.LOADED && this.shouldResume) {
             this.playlistState = playlistState.LOADED;
-            this.playerInstance.playlistItem(this.watchHistoryIndex);
+            this._playerInstance.playlistItem(this.watchHistoryIndex);
         } else if (this.playlistState == playlistState.LOADED && this.shouldResume) {
-            this.playerInstance.seek(this.watchHistoryPosition);
+            this._playerInstance.seek(this.watchHistoryPosition);
         } else if (this.playlistState != playlistState.LOADED && !this.shouldResume) {
             this.watchHistoryMediaId = null;
             this.watchHistoryPosition = null;            
@@ -114,6 +122,9 @@ export class JWPlayerHandlerComponent {
 
     @Input()
     public aspectRatio: string;
+
+    @Input()
+    public playlist: any;
 
     @Input()
     public height: string;

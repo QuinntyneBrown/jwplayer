@@ -17,11 +17,18 @@ export const bootstrap = (root: HTMLElement, key: string, storeKey, isDebug = fa
         let element = elements[i] as HTMLElement;        
         element.innerHTML = Reflect.getMetadata("template", JWPlayerHandlerComponent, undefined);        
         
-        let jwPlayerHandlerComponent = new JWPlayerHandlerComponent(element, jwplayer(element.querySelector(".jw-player")), new Store(`${storeKey}-${i}`), JSON.parse(element.getAttribute("[playlist]")));                
+        let jwPlayerHandlerComponent = new JWPlayerHandlerComponent(element, new Store(`${storeKey}-${i}`));                
         
-        Reflect.getMetadata("bindingPropertyNames", JWPlayerHandlerComponent, undefined)
-            .forEach(input => { jwPlayerHandlerComponent[input] = element.getAttribute(`[${input}]`) });
-        
+        let inputs = Reflect.getMetadata("bindingPropertyNames", JWPlayerHandlerComponent, undefined)
+
+        for (var x = 0; x < inputs.length; x++) {
+            if (inputs[x] == "playlist") {
+                jwPlayerHandlerComponent[inputs[x]] = JSON.parse(element.getAttribute(`[${inputs[x]}]`));
+            }
+            else {
+                jwPlayerHandlerComponent[inputs[x]] = element.getAttribute(`[${inputs[x]}]`);
+            } 
+        }        
         jwPlayerHandlerComponent.activate();
     }
 }
