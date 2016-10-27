@@ -9,9 +9,10 @@
     <div jw-player
          [height]="420px"
          [width]="680px"
+         [aspectRatio]="1:1"
          [playlist]='[
-            { "file": "egghead-1.mp4", "type": "mp4" },
-            { "file": "egghead-2.mp4", "type": "mp4" }
+            { "file": "egghead-1.mp4", "type": "mp4", "mediaid": "egghead-1.mp4", "title": "Egghead IO" },
+            { "file": "egghead-2.mp4", "type": "mp4", "mediaid": "egghead-2.mp4", "title": "Egghead IO" }
          ]'></div>
 
     <script src="vendor/jwplayer.js"></script>

@@ -1,13 +1,13 @@
 ﻿import { environment } from "../environment";
 
-export function Input() {
+export function Input(bindingPropertyName?: string) {
     return (target, propertyKey) => {
-        var inputs = Reflect.getOwnMetadata("bindingProperties", target.constructor, undefined);
+        var inputs = Reflect.getOwnMetadata("bindingPropertyNames", target.constructor, undefined);
         if (inputs == null) {
-            inputs = [propertyKey];
+            inputs = [bindingPropertyName || propertyKey];
         } else {
-            inputs.push(propertyKey);
+            inputs.push(bindingPropertyName || propertyKey);
         }         
-        Reflect.defineMetadata("bindingProperties", inputs, target.constructor, undefined);
+        Reflect.defineMetadata("bindingPropertyNames", inputs, target.constructor, undefined);
     }
 }

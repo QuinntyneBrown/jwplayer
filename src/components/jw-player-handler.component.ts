@@ -8,11 +8,12 @@ import { jwPlayerState, playlistState, keys } from "./enums";
 export class JWPlayerHandlerComponent {
     constructor(private _element: any, public playerInstance:any, private _store:Store, private playlist) { }
 
-    public activate() {
+    public activate() {        
         this.playerInstance.setup({
             height: this.height,
             width: this.width,
-            setFullScreen: true,
+            aspectratio: this.aspectRatio,
+            setfullscreen: true,
             playlist: this.playlist,
             events: {
                 onAdCompanions: event => this.onAdCompanions(event),
@@ -66,7 +67,7 @@ export class JWPlayerHandlerComponent {
 
     @Log()
     @Notify("playlistcomplete")
-    public onPlaylistComplete() { this.playlistIndex = 0; this.currentFile = ""; }
+    public onPlaylistComplete() { this.playlistIndex = 0; this.currentMediaId = ""; }
 
     @Log()
     public onFirstFrame(event) { }
@@ -79,17 +80,17 @@ export class JWPlayerHandlerComponent {
             this.playerInstance.playlistItem(this.playlistIndex);            
             this.playerInstance.seek(this.position);
         } else {
-            this.setPlaylistIndexAndFile({ playlistIndex: event.index, file: event.item.file });
+            this.setPlaylistIndexAndMediaId({ playlistIndex: event.index, mediaid: event.item.mediaid });
             this.playlistState = playlistState.LOADED;
             this.playerInstance.seek(this.position);
         }               
     }
 
     @Log()
-    @Notify("setplaylistitem")
-    public setPlaylistIndexAndFile(options) {
+    @Notify("setplaylistitemandmediaid")
+    public setPlaylistIndexAndMediaId(options) {
         this.playlistIndex = options.playlistIndex;
-        this.currentFile = options.file;
+        this.currentMediaId = options.mediaid;
     }
     
     @Notify("play")
@@ -127,7 +128,7 @@ export class JWPlayerHandlerComponent {
 
     private playlistState: playlistState = playlistState.NOT_LOADED;
     
-    public get currentFile() { return this._store.get({ name: keys.CURRENT_FILE }); }
+    public get currentMediaId() { return this._store.get({ name: keys.CURRENT_MEDIA_ID }); }
 
-    public set currentFile(value) { this._store.put({ name: keys.CURRENT_FILE, value: value }); } 
+    public set currentMediaId(value) { this._store.put({ name: keys.CURRENT_MEDIA_ID, value: value }); } 
 }

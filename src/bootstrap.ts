@@ -15,10 +15,10 @@ export const bootstrap = (root: HTMLElement, key: string, storeKey, isDebug = fa
         var element = elements[i] as HTMLElement;        
         element.innerHTML = Reflect.getMetadata("template", JWPlayerHandlerComponent, undefined);        
         
-        var inputs: Array<string> = Reflect.getMetadata("bindingProperties", JWPlayerHandlerComponent, undefined);
+        var inputs: Array<string> = Reflect.getMetadata("bindingPropertyNames", JWPlayerHandlerComponent, undefined);
         
         let jwPlayerHandlerComponent = new JWPlayerHandlerComponent(element, jwplayer(element.querySelector(".jw-player")), new Store(`${storeKey}-${i}`), JSON.parse(element.getAttribute("[playlist]")));                
-
+        
         inputs.forEach(input => { jwPlayerHandlerComponent[input] = element.getAttribute(`[${input}]`) });
 
         jwPlayerHandlerComponent.activate();

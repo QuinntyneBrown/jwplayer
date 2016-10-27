@@ -13,5 +13,5 @@ export enum jwPlayerState {
 export const keys = {
     PLAYLIST_INDEX: "PLAYLIST_INDEX",
     POSITION: "POSITION",
-    CURRENT_FILE: "CURRENT_FILE",
+    CURRENT_MEDIA_ID: "CURRENT_MEDIA_ID",
 }
