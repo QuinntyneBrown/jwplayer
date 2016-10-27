@@ -1,6 +1,7 @@
 ﻿import { Store } from "../services";
 import { Input, Notify, Log, Component } from "../decorators";
 import { jwPlayerState, playlistState, keys } from "./enums";
+import { Media, Playlist } from "./models";
 
 @Component({
     template: require("./jw-player-handler.html")
@@ -8,13 +9,15 @@ import { jwPlayerState, playlistState, keys } from "./enums";
 export class JWPlayerHandlerComponent {
     constructor(private _element: any, public playerInstance:any, private _store:Store, private playlist) { }
 
-    public activate() {        
+    public activate() {    
         this.playerInstance.setup({
             height: this.height,
             width: this.width,
             aspectratio: this.aspectRatio,
             setfullscreen: true,
             playlist: this.playlist,
+            nextupoffset: this.nextupoffset,
+            autostart:this.autostart,
             events: {
                 onAdCompanions: event => this.onAdCompanions(event),
                 onBeforeComplete: event => this.onBeforeComplete(event),
@@ -56,7 +59,7 @@ export class JWPlayerHandlerComponent {
 
     @Log()
     @Notify("complete")
-    public onComplete() { this.position = 0; }
+    public onComplete() { this.watchHistoryPosition = 0; }
 
     @Log()
     @Notify("error")
@@ -67,31 +70,33 @@ export class JWPlayerHandlerComponent {
 
     @Log()
     @Notify("playlistcomplete")
-    public onPlaylistComplete() { this.playlistIndex = 0; this.currentMediaId = ""; }
+    public onPlaylistComplete() { this.watchHistoryIndex = 0; this.watchHistoryMediaId = ""; }
 
     @Log()
     public onFirstFrame(event) { }
 
     @Log()
     @Notify("playlistitem")
-    public onPlaylistItem(event) {           
-        if (this.playlistState == playlistState.NOT_LOADED && this.playlistIndex > 0) {
+    public onPlaylistItem(event) {          
+        if (this.playlistState != playlistState.LOADED && this.shouldResume) {
             this.playlistState = playlistState.LOADED;
-            this.playerInstance.playlistItem(this.playlistIndex);            
-            this.playerInstance.seek(this.position);
-        } else {
-            this.setPlaylistIndexAndMediaId({ playlistIndex: event.index, mediaid: event.item.mediaid });
+            this.playerInstance.playlistItem(this.watchHistoryIndex);
+        } else if (this.playlistState == playlistState.LOADED && this.shouldResume) {
+            this.playerInstance.seek(this.watchHistoryPosition);
+        } else if (this.playlistState != playlistState.LOADED && !this.shouldResume) {
+            this.watchHistoryMediaId = null;
+            this.watchHistoryPosition = null;            
+            this.watchHistoryIndex = 1;            
             this.playlistState = playlistState.LOADED;
-            this.playerInstance.seek(this.position);
         }               
     }
 
-    @Log()
-    @Notify("setplaylistitemandmediaid")
-    public setPlaylistIndexAndMediaId(options) {
-        this.playlistIndex = options.playlistIndex;
-        this.currentMediaId = options.mediaid;
+    public get shouldResume() {
+        if (this.watchHistoryIndex == null)
+            return false;
+        return this.playlist[this.watchHistoryIndex].mediaid == this.watchHistoryMediaId && this.watchHistoryPosition != null && this.watchHistoryPosition >= 0;
     }
+   
     
     @Notify("play")
     public onPlay() { this.playerState = jwPlayerState.PLAY; }
@@ -105,7 +110,7 @@ export class JWPlayerHandlerComponent {
 
     @Notify("time")
     @Log()
-    public onTime(event: { position: number }) { this.position = event.position; }
+    public onTime(event: { position: number }) { this.watchHistoryPosition = event.position; }
 
     @Input()
     public aspectRatio: string;
@@ -115,20 +120,28 @@ export class JWPlayerHandlerComponent {
 
     @Input()
     public width: string;
+
+    @Input()
+    public nextupoffset: string;
+
+    @Input()
+    public autostart: boolean;
     
-    public get position() { return this._store.get({ name: keys.POSITION }); }
+    public get watchHistoryPosition() { return this._store.get({ name: keys.WATCH_HISTORY_POSITION }); }
 
-    public set position(value) { this._store.put({ name: keys.POSITION, value: value }) }
+    public set watchHistoryPosition(value) { this._store.put({ name: keys.WATCH_HISTORY_POSITION, value: value }) }
 
-    public get playlistIndex() { return this._store.get({ name: keys.PLAYLIST_INDEX }); }
+    public get watchHistoryIndex() { return this._store.get({ name: keys.WATCH_HISTORY_INDEX }); }
 
-    public set playlistIndex(value) { this._store.put({ name: keys.PLAYLIST_INDEX, value: value }); }
+    public set watchHistoryIndex(value) { this._store.put({ name: keys.WATCH_HISTORY_INDEX, value: value }); }
 
     private playerState: jwPlayerState;   
 
     private playlistState: playlistState = playlistState.NOT_LOADED;
     
-    public get currentMediaId() { return this._store.get({ name: keys.CURRENT_MEDIA_ID }); }
+    public get watchHistoryMediaId() { return this._store.get({ name: keys.WATCH_HISTORY_MEDIA_ID }); }
 
-    public set currentMediaId(value) { this._store.put({ name: keys.CURRENT_MEDIA_ID, value: value }); } 
+    public set watchHistoryMediaId(value) { this._store.put({ name: keys.WATCH_HISTORY_MEDIA_ID, value: value }); } 
 }
+
+
