@@ -79,6 +79,7 @@
     <Content Include="packages.config" />
     <Content Include="src\components\jw-player-handler.html" />
     <Content Include="vendor\jwplayer.js" />
+    <Content Include="vendor\moment.min.js" />
     <Content Include="webpack.config.js" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />

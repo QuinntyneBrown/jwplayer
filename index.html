@@ -5,23 +5,35 @@
 	<meta charset="utf-8" />
 </head>
 <body>
-    <h1>JW Player Handler Implementation using TypeScript and Webpack</h1>
+
     <div jw-player
          [height]="420"
          [width]="680"
          [nextupoffset]="-10"
          [aspectRatio]="16:9"
          [autostart]="false"
-         [playlist]='[
-            { "file": "egghead-1.mp4", "type": "mp4", "mediaid": "3", "title": "Egghead IO" },
-            { "file": "egghead-2.mp4", "type": "mp4", "mediaid": "4", "title": "Egghead IO" }
-         ]'></div>
+         [playlist]='[{ 
+            "file": "https://www.youtube.com/watch?v=R8NWhf9iiKk", 
+            "type": "youtube", 
+            "mediaid": "R8NWhf9iiKk", 
+            "title": "Keynote Linda Rising - Agile on the Beach 2016" 
+         }]'></div>
 
     <script src="vendor/jwplayer.js"></script>
     <script src="dist/jwplayerhandler.js"></script>
+    <script src="vendor/moment.min.js"></script>
     <script>
-        document.addEventListener("jw-error", function (event) {
-            alert(event.jwplayerevent.message);
+
+        var play = false;
+
+        document.addEventListener("jw-activate", function (event) {
+            console.log("activated: " + moment().format('MMMM Do YYYY, h:mm:ss a'));            
+            jwplayerinstance = event.jwplayerinstance;
+        });
+
+        document.addEventListener("jw-play", function (event) {
+            console.log("play:" + moment().format('MMMM Do YYYY, h:mm:ss a'));
+            if (!play) { console.log("initial play"); play = true; }
         });
 
         document.addEventListener("DOMContentLoaded", function (event) {

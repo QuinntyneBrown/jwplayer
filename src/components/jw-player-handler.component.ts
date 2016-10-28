@@ -17,6 +17,7 @@ export class JWPlayerHandlerComponent {
         return this._playerInstance;
     }
 
+    @Notify("activate")
     public activate() {            
         this.playerInstance.setup({
             height: this.height,
@@ -112,7 +113,7 @@ export class JWPlayerHandlerComponent {
         return this.playlist[this.watchHistoryIndex].mediaid == this.watchHistoryMediaId && this.watchHistoryPosition != null && this.watchHistoryPosition >= 0;
     }
    
-    
+    @Log()
     @Notify("play")
     public onPlay() { this.playerState = jwPlayerState.PLAY; }
 
@@ -153,9 +154,17 @@ export class JWPlayerHandlerComponent {
 
     public set watchHistoryIndex(value) { this._store.put({ name: keys.WATCH_HISTORY_INDEX, value: value }); }
 
-    private playerState: jwPlayerState = jwPlayerState.INITIAL;
+    private _playerState: jwPlayerState = jwPlayerState.INITIAL;
+     
+    public set playerState(value) { this._playerState = value; }
 
-    private playlistState: playlistState = playlistState.INITIAL;
+    public get playerState() { return this._playerState; }
+
+    public getPlayerState() { return this._playerState; }
+
+    public playlistState: playlistState = playlistState.INITIAL;
+
+    public get element() { return this._element; }
     
     public get watchHistoryMediaId() { return this._store.get({ name: keys.WATCH_HISTORY_MEDIA_ID }); }
 
