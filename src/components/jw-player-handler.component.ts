@@ -85,20 +85,25 @@ export class JWPlayerHandlerComponent {
 
     @Log()
     @Notify("playlistitem")
-    public onPlaylistItem(event) {          
-        if (this.playlistState != playlistState.LOADED && this.shouldResume) {
-            this.playlistState = playlistState.LOADED;
-            this._playerInstance.playlistItem(this.watchHistoryIndex);
-        } else if (this.playlistState == playlistState.LOADED && this.shouldResume) {
-            this._playerInstance.seek(this.watchHistoryPosition);
-        } else if (this.playlistState == playlistState.LOADED && !this.shouldResume) {
+    public onPlaylistItem(event) {      
+        if (this.playerState == jwPlayerState.INITIAL) {
+            if (this.playlistState != playlistState.LOADED && this.shouldResume) {
+                this.playlistState = playlistState.LOADED;
+                this._playerInstance.playlistItem(this.watchHistoryIndex);
+            } else if (this.playlistState == playlistState.LOADED && this.shouldResume) {
+                this._playerInstance.seek(this.watchHistoryPosition);
+            } else if (this.playlistState != playlistState.LOADED && !this.shouldResume) {
+                this.watchHistoryMediaId = this.playlist[0].mediaid;
+                this.watchHistoryPosition = null;
+                this.watchHistoryIndex = 0;
+                this.playlistState = playlistState.LOADED;
+            } 
+        } else {
             this.watchHistoryMediaId = this.playlist[event.index].mediaid;
-        } else if (this.playlistState != playlistState.LOADED && !this.shouldResume) {
-            this.watchHistoryMediaId = this.playlist[event.index].mediaid;
-            this.watchHistoryPosition = null;            
-            this.watchHistoryIndex = event.index;            
-            this.playlistState = playlistState.LOADED;
-        }               
+            this.watchHistoryPosition = null;
+            this.watchHistoryIndex = event.index;
+        }
+              
     }
 
     public get shouldResume() {
