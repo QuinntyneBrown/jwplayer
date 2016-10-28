@@ -67,7 +67,7 @@ export class JWPlayerHandlerComponent {
 
     @Log()
     @Notify("complete")
-    public onComplete() { this.watchHistoryPosition = 0; }
+    public onComplete() {  }
 
     @Log()
     @Notify("error")
@@ -78,7 +78,7 @@ export class JWPlayerHandlerComponent {
 
     @Log()
     @Notify("playlistcomplete")
-    public onPlaylistComplete() { this.watchHistoryIndex = 0; this.watchHistoryMediaId = ""; }
+    public onPlaylistComplete() { this.watchHistoryPosition = null; this.watchHistoryIndex = null; this.watchHistoryMediaId = null; }
 
     @Log()
     public onFirstFrame(event) { }
@@ -91,10 +91,12 @@ export class JWPlayerHandlerComponent {
             this._playerInstance.playlistItem(this.watchHistoryIndex);
         } else if (this.playlistState == playlistState.LOADED && this.shouldResume) {
             this._playerInstance.seek(this.watchHistoryPosition);
+        } else if (this.playlistState == playlistState.LOADED && !this.shouldResume) {
+            this.watchHistoryMediaId = this.playlist[event.index].mediaid;
         } else if (this.playlistState != playlistState.LOADED && !this.shouldResume) {
-            this.watchHistoryMediaId = null;
+            this.watchHistoryMediaId = this.playlist[event.index].mediaid;
             this.watchHistoryPosition = null;            
-            this.watchHistoryIndex = 1;            
+            this.watchHistoryIndex = event.index;            
             this.playlistState = playlistState.LOADED;
         }               
     }
