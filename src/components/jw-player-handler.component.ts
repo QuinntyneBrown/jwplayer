@@ -148,9 +148,9 @@ export class JWPlayerHandlerComponent {
 
     public set watchHistoryIndex(value) { this._store.put({ name: keys.WATCH_HISTORY_INDEX, value: value }); }
 
-    private playerState: jwPlayerState;   
+    private playerState: jwPlayerState = jwPlayerState.INITIAL;
 
-    private playlistState: playlistState = playlistState.NOT_LOADED;
+    private playlistState: playlistState = playlistState.INITIAL;
     
     public get watchHistoryMediaId() { return this._store.get({ name: keys.WATCH_HISTORY_MEDIA_ID }); }
 
