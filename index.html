@@ -13,10 +13,10 @@
          [aspectRatio]="16:9"
          [autostart]="false"
          [playlist]='[{ 
-            "file": "https://www.youtube.com/watch?v=R8NWhf9iiKk", 
+            "file": "https://www.youtube.com/watch?v=WWR9nxVx1ec", 
             "type": "youtube", 
             "mediaid": "R8NWhf9iiKk", 
-            "title": "Keynote Linda Rising - Agile on the Beach 2016" 
+            "title": "Rob Wormald (@robwormald): Angular & RxJS at ng-europe 2016" 
          }]'></div>
 
     <script src="vendor/jwplayer.js"></script>
@@ -26,7 +26,7 @@
 
         var play = false;
 
-        document.addEventListener("jw-activate", function (event) {
+        document.addEventListener("jw-connectedcallback", function (event) {
             console.log("activated: " + moment().format('MMMM Do YYYY, h:mm:ss a'));            
             jwplayerinstance = event.jwplayerinstance;
         });
@@ -40,7 +40,7 @@
             jwplayerhandler.bootstrap(document.body,
                 "RQ+gASdSAzcEhqeSCgQ7M7hHOXdBC1Jdsl+PWg==",
                 "[Your Unique Store Key]",
-                false);
+                true);
         });
     </script>
 </body>

@@ -29,7 +29,7 @@ export const bootstrap = (root: HTMLElement, key: string, storeKey, isDebug = fa
                 jwPlayerHandlerComponent[inputs[x]] = element.getAttribute(`[${inputs[x]}]`);
             } 
         }        
-        jwPlayerHandlerComponent.activate();        
+        jwPlayerHandlerComponent.connectedCallback();        
     }
 }
 

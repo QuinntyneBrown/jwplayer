@@ -17,8 +17,8 @@ export class JWPlayerHandlerComponent {
         return this._playerInstance;
     }
 
-    @Notify("activate")
-    public activate() {            
+    @Notify("connectedCallback")
+    public connectedCallback() {            
         this.playerInstance.setup({
             height: this.height,
             width: this.width,
@@ -28,21 +28,21 @@ export class JWPlayerHandlerComponent {
             nextupoffset: this.nextupoffset,
             autostart:this.autostart,
             events: {
-                onAdCompanions: event => this.onAdCompanions(event),
-                onBeforeComplete: event => this.onBeforeComplete(event),
-                onBeforePlay: event => this.onBeforePlay(event),
-                onBuffer: event => this.onBuffer(),
-                onBufferChange: event => this.onBufferChange(event),
-                onComplete: event => this.onComplete(),
-                onError: event => this.onError(event),
-                onFirstFrame: event => this.onFirstFrame(event),
-                onIdle: event => this.onIdle(),
-                onPlay: event => this.onPlay(),
-                onPlaylistComplete: event => this.onPlaylistComplete(),
-                onPlaylistItem: event => this.onPlaylistItem(event),
-                onPause: event => this.onPause(),
-                onReady: event => this.onReady(),
-                onTime: event => this.onTime(event)
+                onAdCompanions: this.onAdCompanions.bind(this),
+                onBeforeComplete: this.onBeforeComplete.bind(this),
+                onBeforePlay: this.onBeforePlay.bind(this),
+                onBuffer: this.onBuffer.bind(this),
+                onBufferChange: this.onBufferChange.bind(this),
+                onComplete: this.onComplete.bind(this),
+                onError: this.onError.bind(this),
+                onFirstFrame: this.onFirstFrame.bind(this),
+                onIdle: this.onIdle.bind(this),
+                onPlay: this.onPlay.bind(this),
+                onPlaylistComplete: this.onPlaylistComplete.bind(this),
+                onPlaylistItem: this.onPlaylistItem.bind(this),
+                onPause: this.onPause.bind(this),
+                onReady: this.onReady.bind(this),
+                onTime: this.onTime.bind(this)
             }
         });
     }
