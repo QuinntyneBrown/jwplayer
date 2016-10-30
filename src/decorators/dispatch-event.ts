@@ -1,4 +1,4 @@
-﻿export function Notify(jwplayereventname?:string) {
+﻿export function DispatchEvent(jwplayereventname?:string) {
     return (target, propertyKey, descriptor) => {
         jwplayereventname = jwplayereventname || propertyKey;
         var originalMethod = descriptor.value;           

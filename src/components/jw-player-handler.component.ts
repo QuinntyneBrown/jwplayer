@@ -1,5 +1,5 @@
 ﻿import { Store } from "../services";
-import { Input, Notify, Log, Component } from "../decorators";
+import { Input, DispatchEvent, Log, Component } from "../decorators";
 import { jwPlayerState, playlistState, keys } from "./enums";
 
 declare var jwplayer;
@@ -17,8 +17,8 @@ export class JWPlayerHandlerComponent {
         return this._playerInstance;
     }
 
-    @Notify("connectedCallback")
-    public connectedCallback() {            
+    @DispatchEvent("connectedCallback")
+    public connectedCallback() {                    
         this.playerInstance.setup({
             height: this.height,
             width: this.width,
@@ -67,25 +67,25 @@ export class JWPlayerHandlerComponent {
     }
 
     @Log()
-    @Notify("complete")
+    @DispatchEvent("complete")
     public onComplete() {  }
 
     @Log()
-    @Notify("error")
+    @DispatchEvent("error")
     public onError(event: { message: string }) { }
     
     @Log()
     public onIdle() { this.playerState = jwPlayerState.IDLE; }
 
     @Log()
-    @Notify("playlistcomplete")
+    @DispatchEvent("playlistcomplete")
     public onPlaylistComplete() { this.watchHistoryPosition = null; this.watchHistoryIndex = null; this.watchHistoryMediaId = null; }
 
     @Log()
     public onFirstFrame(event) { }
 
     @Log()
-    @Notify("playlistitem")
+    @DispatchEvent("playlistitem")
     public onPlaylistItem(event) {      
         if (this.playerState == jwPlayerState.INITIAL) {
             if (this.playlistState != playlistState.LOADED && this.shouldResume) {
@@ -114,17 +114,17 @@ export class JWPlayerHandlerComponent {
     }
    
     @Log()
-    @Notify("play")
+    @DispatchEvent("play")
     public onPlay() { this.playerState = jwPlayerState.PLAY; }
 
     @Log()
     public onPause() { this.playerState = jwPlayerState.PAUSE; }
 
     @Log()
-    @Notify("ready")
+    @DispatchEvent("ready")
     public onReady() { }
 
-    @Notify("time")
+    @DispatchEvent("time")
     @Log()
     public onTime(event: { position: number }) { this.watchHistoryPosition = event.position; }
 
